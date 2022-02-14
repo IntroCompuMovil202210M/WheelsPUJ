@@ -36,11 +36,11 @@ class Login extends StatelessWidget {
                 ),
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(30.0),
+                    padding: const EdgeInsets.all(100.0),
                     child: Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +63,7 @@ class Login extends StatelessWidget {
                           ),
                           const Expanded(
                             child: InputField(
-                                icon: Icon(Icons.verified_user_rounded),
+                                icon: Icon(Icons.verified_user_rounded,color: Colors.green,),
                                 text: "Username"),
                           ),
                           Expanded(
@@ -73,7 +73,7 @@ class Login extends StatelessWidget {
                           ),
                           const Expanded(
                             child: InputField(
-                              icon: Icon(Icons.security_rounded),
+                              icon: Icon(Icons.security_rounded,color: Colors.red,),
                               text: "Password",
                               hide: true,
                             ),
@@ -83,10 +83,13 @@ class Login extends StatelessWidget {
                               height: 80,
                             ),
                           ),
-                          Expanded(
-                            child: TextButton(
-                              child: const Text('Log In'),
-                              onPressed: logInButton,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Expanded(
+                              child: ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                                child: const Text('Log In'),
+                                onPressed: logInButton,
+                              ),
                             ),
                           )
                         ],
