@@ -25,23 +25,20 @@ class _InputFieldState extends State<InputField> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              widget.text,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Color(0xff8fb9a8)),
-            ),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextField(
                 obscureText: widget.hide,
                 controller: _text,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder()
-                ),
+                decoration: InputDecoration(
+                    suffixIcon: widget.icon,
+                    hintText: widget.text,
+                    hintStyle: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w300),
+                    border: const UnderlineInputBorder()),
               ),
-            )),
-            widget.icon
+            ))
           ],
         ),
       ),
