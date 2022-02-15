@@ -36,7 +36,7 @@ class Login extends StatelessWidget {
                 ),
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(100.0),
+                    padding: const EdgeInsets.all(50.0),
                     child: Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
