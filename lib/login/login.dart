@@ -20,14 +20,14 @@ class _InputFieldState extends State<InputField> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(2.0),
               child: TextField(
                 obscureText: widget.hide,
                 controller: _text,
