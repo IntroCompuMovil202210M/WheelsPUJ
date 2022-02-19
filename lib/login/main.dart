@@ -4,11 +4,17 @@ import 'package:wheelspuj/login/login.dart';
 
 class Login extends StatelessWidget {
   final void Function() logInButton;
-  final TextEditingController username = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  Login({
+  final void Function() forgotPassword;
+  final void Function() register;
+  final TextEditingController username;
+  final TextEditingController password;
+  const Login({
     Key? key,
     required this.logInButton,
+    required this.username,
+    required this.password,
+    required this.forgotPassword,
+    required this.register,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -25,20 +31,26 @@ class Login extends StatelessWidget {
               alignment: Alignment.center,
               child: Container(
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Color.fromARGB(255, 246, 194, 255),
-                        Color.fromARGB(255, 255, 241, 241),
-                        Color.fromARGB(255, 128, 196, 190),
-                        Color.fromARGB(255, 215, 242, 255),
-                        Color.fromARGB(255, 255, 255, 255),
-                        Color.fromARGB(255, 255, 147, 183),
-                        Color.fromARGB(255, 239, 250, 255),
-                        Color.fromARGB(137, 255, 255, 255),
-                        Color.fromARGB(255, 188, 247, 255)
-                      ]),
+                  gradient: SweepGradient(colors: [
+                    Color.fromARGB(255, 113, 66, 255),
+                    Color.fromARGB(255, 130, 103, 255),
+                    Color.fromARGB(255, 131, 255, 245),
+                    Color.fromARGB(255, 113, 66, 209),
+                    Color.fromARGB(255, 29, 179, 238),
+                    Color.fromARGB(255, 255, 147, 183),
+                    Color.fromARGB(255, 40, 183, 250),
+                    Color.fromARGB(255, 132, 0, 255),
+                    Color.fromARGB(255, 132, 241, 255),
+                    Color.fromARGB(255, 113, 66, 255),
+                    Color.fromARGB(255, 130, 103, 255),
+                    Color.fromARGB(255, 131, 255, 245),
+                    Color.fromARGB(255, 113, 66, 209),
+                    Color.fromARGB(255, 29, 179, 238),
+                    Color.fromARGB(255, 255, 147, 183),
+                    Color.fromARGB(255, 40, 183, 250),
+                    Color.fromARGB(255, 132, 0, 255),
+                    Color.fromARGB(255, 132, 241, 255)
+                  ], tileMode: TileMode.decal),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: SafeArea(
@@ -92,6 +104,43 @@ class Login extends StatelessWidget {
                               text: "Password",
                               hide: true,
                             ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text("Still don't have an account?"),
+                                    ),
+                                    TextButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white)),
+                                      onPressed: register,
+                                      child: const Text('Register',
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 57, 37, 233),
+                                              decoration: TextDecoration.none)),
+                                    ),
+                                  ]),
+                              TextButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.white)),
+                                onPressed: forgotPassword,
+                                child: const Text('Forgot password',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 233, 37, 96),
+                                        decorationColor:
+                                            Color.fromARGB(255, 233, 37, 96),
+                                        decoration: TextDecoration.underline)),
+                              ),
+                            ],
                           ),
                           Expanded(
                             child: Container(
