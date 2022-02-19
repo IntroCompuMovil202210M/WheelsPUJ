@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class InputField extends StatefulWidget {
   final Icon icon;
   final String text;
+  final TextEditingController textController;
   final bool hide;
   const InputField({
     Key? key,
     required this.icon,
     required this.text,
+    required this.textController,
     this.hide = false,
   }) : super(key: key);
   @override
@@ -15,7 +17,6 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  final _text = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,7 +31,7 @@ class _InputFieldState extends State<InputField> {
               padding: const EdgeInsets.all(2.0),
               child: TextField(
                 obscureText: widget.hide,
-                controller: _text,
+                controller: widget.textController,
                 decoration: InputDecoration(
                     suffixIcon: widget.icon,
                     hintText: widget.text,
