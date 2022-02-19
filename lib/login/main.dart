@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:wheelspuj/login/login.dart';
 
 class Login extends StatelessWidget {
-  final void Function() logInButton;
-  final void Function() forgotPassword;
-  final void Function() register;
+  final void Function(BuildContext context) logInButton;
+  final void Function(BuildContext context) forgotPassword;
+  final void Function(BuildContext context) register;
   final TextEditingController username;
   final TextEditingController password;
   const Login({
@@ -26,8 +26,8 @@ class Login extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
-          backgroundColor: Colors.white,
-          body: Container(
+            backgroundColor: Colors.white,
+            body: Container(
               alignment: Alignment.center,
               child: Container(
                 decoration: const BoxDecoration(
@@ -62,111 +62,115 @@ class Login extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 50,
-                            ),
-                          ),
-                          Image.asset(
-                            'icons/main.png',
-                            height: 150,
-                            width: 150,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 100,
-                            ),
-                          ),
-                          Expanded(
-                            child: InputField(
-                                textController: username,
-                                icon: const Icon(
-                                  Icons.verified_user_rounded,
-                                  color: Color.fromARGB(255, 0, 168, 6),
-                                ),
-                                text: "Username"),
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 50,
-                            ),
-                          ),
-                          Expanded(
-                            child: InputField(
-                              textController: password,
-                              icon: const Icon(
-                                Icons.security_rounded,
-                                color: Colors.red,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 50,
                               ),
-                              text: "Password",
-                              hide: true,
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Padding(
+                            Image.asset(
+                              'icons/main.png',
+                              height: 150,
+                              width: 150,
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 100,
+                              ),
+                            ),
+                            Expanded(
+                              child: InputField(
+                                  textController: username,
+                                  icon: const Icon(
+                                    Icons.verified_user_rounded,
+                                    color: Color.fromARGB(255, 0, 168, 6),
+                                  ),
+                                  text: "Username"),
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                              ),
+                            ),
+                            Expanded(
+                              child: InputField(
+                                textController: password,
+                                icon: const Icon(
+                                  Icons.security_rounded,
+                                  color: Colors.red,
+                                ),
+                                text: "Password",
+                                hide: true,
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 80,
+                              ),
+                            ),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Expanded(
+                                    child: Padding(
                                       padding: EdgeInsets.all(8.0),
-                                      child: Text("Still don't have an account?"),
+                                      child:
+                                          Text("Still don't have an account?"),
                                     ),
-                                    TextButton(
+                                  ),
+                                  Expanded(
+                                      child: TextButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.white)),
+                                    onPressed: () {
+                                      register(context);
+                                    },
+                                    child: const Text("Register"),
+                                  )),
+                                  Expanded(
+                                    child: TextButton(
                                       style: ButtonStyle(
                                           backgroundColor:
                                               MaterialStateProperty.all(
                                                   Colors.white)),
-                                      onPressed: register,
-                                      child: const Text('Register',
+                                      onPressed: () {
+                                        forgotPassword(context);
+                                      },
+                                      child: const Text('Forgot password',
                                           style: TextStyle(
                                               color: Color.fromARGB(
-                                                  255, 57, 37, 233),
-                                              decoration: TextDecoration.none)),
+                                                  255, 233, 37, 96),
+                                              decorationColor: Color.fromARGB(
+                                                  255, 233, 37, 96),
+                                              decoration:
+                                                  TextDecoration.underline)),
                                     ),
-                                  ]),
-                              TextButton(
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.white)),
-                                onPressed: forgotPassword,
-                                child: const Text('Forgot password',
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 233, 37, 96),
-                                        decorationColor:
-                                            Color.fromARGB(255, 233, 37, 96),
-                                        decoration: TextDecoration.underline)),
+                                  ),
+                                ]),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Expanded(
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.blue)),
+                                    child: const Text('Log In'),
+                                    onPressed: () {
+                                      logInButton(context);
+                                    }),
                               ),
-                            ],
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 80,
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Expanded(
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.blue)),
-                                  child: const Text('Log In'),
-                                  onPressed: () {
-                                    logInButton();
-                                  }),
-                            ),
-                          ),
-                        ],
-                      ),
+                          ]),
                     ),
                   ),
                 ),
-              )),
-        ));
+              ),
+            )));
   }
 }
