@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/person"
+        android:title="Perfil" />
+    <item
+        android:id="@+id/nav_viajes"
+        android:icon="@drawable/ic_baseline_directions_car_24"
+        android:title="Viajes" />
+    <item
+        android:id="@+id/nav_info"
+        android:icon="@drawable/info"
+        android:title="Acerca de" />
+
+</menu>
