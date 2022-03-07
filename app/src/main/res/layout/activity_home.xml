@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/white"
         android:contentDescription="@string/search"
         android:padding="20dp"
         android:text="@string/search"
@@ -24,10 +25,16 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:visibility="invisible"
-
+        app:headerLayout="@layout/nav_header"
         app:menu="@menu/navigation_items">
 
-
+        <ImageButton
+            android:id="@+id/backHome"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center|end" />
     </com.google.android.material.navigation.NavigationView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/search"
         android:src="@drawable/home"

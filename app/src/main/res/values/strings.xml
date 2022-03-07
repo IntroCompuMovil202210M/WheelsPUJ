@@ -3,7 +3,32 @@
     <string name="search">Buscar viajes</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
+    <string name="user">Nombre de usuario:</string>
+    <string name="email">Correo:</string>
+    <string name="historial">Historial de viajes</string>
+    <string name="phone">Telefono</string>
     <string name="password_hyperlink"> <a href="https://www.google.com/">Forgot Password?</a> </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="entries">
+        <item>HAS-213</item>
+        <item>BBS-113</item>
+        <item>AAS-213</item>
+        <item>DDS-213</item>
+        <item>ASS-213</item>
+    </string-array>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>
