@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">WheelsPUJ</string>
+    <string name="Login_USER">Login User</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="hyperlink_userRegister"><a> Registrate aquí</a></string>
+
+
     <string name="search">Buscar viajes</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
@@ -31,4 +37,16 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="Register_title">Registro</string>
+    <string name="hint_nameInput">Nombres</string>
+    <string name="name_inputHint">Nombres</string>
+    <string name="suname_inputHint">Apellidos</string>
+    <string name="phone_inputHint">Teléfono</string>
+    <string name="email_inputHint">Correo</string>
+    <string name="password_inputHint">Contraseña</string>
+    <string name="repeatpassword_inputHint">Confirme su contraseña</string>
+    <string name="login_user">Login User</string>
+    <string name="passengerOption">Pasajero</string>
+    <string name="driverOption">Conductor</string>
+    <string name="rolTextTextView">Seleccione su rol</string>
 </resources>
