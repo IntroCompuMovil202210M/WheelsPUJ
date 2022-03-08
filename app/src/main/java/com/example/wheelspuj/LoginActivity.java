@@ -33,12 +33,10 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, Home.class);
                     intent.putExtra("email",name);
                     intent.putExtra("password",password);
-
-
                     startActivity(intent);
                 }else{
-                    Toast.makeText(LoginActivity.this,"Ingrese un email",Toast.LENGTH_SHORT)
-                            .show();
+                    Intent intent = new Intent(LoginActivity.this, DriverHome.class);
+                    startActivity(intent);
                 }
                 }
 

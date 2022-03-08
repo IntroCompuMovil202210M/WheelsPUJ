@@ -3,9 +3,8 @@
     <string name="Login_USER">Login User</string>
     <string name="ingresar">Ingresar</string>
     <string name="registrarse">Registrarse</string>
+    <string name="accept">Buscar pasajeros</string>
     <string name="hyperlink_userRegister"><a> Registrate aquí</a></string>
-
-
     <string name="search">Buscar viajes</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
