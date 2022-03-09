@@ -23,8 +23,8 @@ public class RegisterActivity extends AppCompatActivity  {
     RadioButton passengerOption;
     TextView textRol;
     Button loginButton;
-    boolean firstclick;
-    boolean secondClick;
+    boolean firstclick = true;
+    boolean secondClick = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 loginButton.setText(next);
                 firstclick = false;
+                secondClick = true;
 
             }
 
@@ -59,28 +60,33 @@ public class RegisterActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 loginButton.setText(LoginUser);
-                firstclick = true;
+                firstclick = false;
+                secondClick = false;
             }
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(firstclick && !secondClick){
+                System.out.println("firstClick: " + firstclick);
+                System.out.println("SecondClick: " + secondClick);
+                if(!firstclick && !secondClick){
                     Intent intent = new Intent(RegisterActivity.this, Home.class);
                     startActivity(intent);
                 }
-                else if(!firstclick && !secondClick){
+                else if(!firstclick && secondClick){
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.formContainer,driverFragment).commit();
                     loginButton.setText(LoginUser);
-                    secondClick = true;
+                    secondClick = false;
+                    firstclick = true;
                     textRol.setVisibility(View.INVISIBLE);
                     opciones_rol.setVisibility(View.INVISIBLE);
 
 
-                }else if(!firstclick && secondClick){
-                    Intent intent = new Intent(RegisterActivity.this, Home.class);
+                }else if(firstclick && !secondClick){
+                    System.out.println("finall");
+                    Intent intent = new Intent(RegisterActivity.this, DriverHome.class);
                     startActivity(intent);
                 }
 
