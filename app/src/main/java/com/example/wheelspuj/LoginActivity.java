@@ -3,6 +3,7 @@ package com.example.wheelspuj;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.logginButtonn);
+
+        
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
