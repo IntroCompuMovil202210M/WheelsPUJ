@@ -1,15 +1,18 @@
 package com.example.wheelspuj;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,7 +37,7 @@ public class DriverHome extends AppCompatActivity {
         Fragment fragment = new GoogleMap();
         Fragment profile=new Profile();
         Fragment historial=new TripsHistorial();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        loadFragment(fragment);
         floatingButton = findViewById(R.id.home);
         backHome = findViewById(R.id.backHome);
         nav = findViewById(R.id.navId);
@@ -46,17 +49,17 @@ public class DriverHome extends AppCompatActivity {
             int id = item.getItemId();
             switch (id) {
                 case R.id.nav_inicio:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+                    loadFragment(fragment);
                     nav.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.VISIBLE);
                     break;
                 case R.id.nav_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profile).commit();
+                    loadFragment(profile);
                     nav.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.INVISIBLE);
                     break;
                 case R.id.nav_viajes:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, historial).commit();
+                    loadFragment(historial);
                     nav.setVisibility(View.INVISIBLE);
                     button.setVisibility(View.INVISIBLE);
                     break;
@@ -68,5 +71,12 @@ public class DriverHome extends AppCompatActivity {
             }
             return false;
         });
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit(); // save the changes
     }
 }

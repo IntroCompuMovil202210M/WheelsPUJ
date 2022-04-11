@@ -2,11 +2,10 @@ package com.example.wheelspuj;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.app.ActionBar;
-import android.media.Image;
+import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -36,7 +34,7 @@ public class Home extends AppCompatActivity {
         Fragment possibleTrips=new PossibleTrips();
         Fragment profile=new Profile();
         Fragment historial=new TripsHistorial();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        loadFragment(fragment);
         floatingButton = findViewById(R.id.home);
         backHome = findViewById(R.id.backHome);
         nav = findViewById(R.id.navId);
@@ -57,7 +55,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Home.this,"Trips",Toast.LENGTH_SHORT).show();
-                //getSupportFragmentManager().beginTransaction().replace(R.id.button,possibleTrips).commit();
+                loadFragment(possibleTrips);
             }
         });
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -66,17 +64,17 @@ public class Home extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.nav_inicio:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+                        loadFragment(fragment);
                         nav.setVisibility(View.INVISIBLE);
                         button.setVisibility(View.VISIBLE);
                         break;
                     case R.id.nav_home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profile).commit();
+                        loadFragment(profile);
                         nav.setVisibility(View.INVISIBLE);
                         button.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.nav_viajes:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, historial).commit();
+                        loadFragment(historial);
                         nav.setVisibility(View.INVISIBLE);
                         button.setVisibility(View.INVISIBLE);
                         break;
@@ -88,5 +86,12 @@ public class Home extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit(); // save the changes
     }
 }
