@@ -34,7 +34,7 @@ public class DriverHome extends AppCompatActivity {
         setContentView(R.layout.activity_driver_home);
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Fragment fragment = new GoogleMap();
+        Fragment fragment = new OSMap(getUsername(), true);
         Fragment profile=new Profile();
         Fragment historial=new TripsHistorial();
         loadFragment(fragment);
@@ -71,6 +71,10 @@ public class DriverHome extends AppCompatActivity {
             }
             return false;
         });
+    }
+
+    private String getUsername() {
+        return "Hola";
     }
 
     private void loadFragment(Fragment fragment) {

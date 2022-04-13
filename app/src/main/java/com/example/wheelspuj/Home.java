@@ -30,7 +30,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Fragment fragment = new GoogleMap();
+        Fragment fragment = new OSMap(getUsername(), false);
         Fragment possibleTrips=new PossibleTrips();
         Fragment profile=new Profile();
         Fragment historial=new TripsHistorial();
@@ -86,6 +86,10 @@ public class Home extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private String getUsername() {
+        return "Hola";
     }
 
     private void loadFragment(Fragment fragment) {
