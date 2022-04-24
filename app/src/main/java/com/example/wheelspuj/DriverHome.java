@@ -74,7 +74,7 @@ public class DriverHome extends AppCompatActivity {
     }
 
     private String getUsername() {
-        return "Hola";
+        return "Driver";
     }
 
     private void loadFragment(Fragment fragment) {

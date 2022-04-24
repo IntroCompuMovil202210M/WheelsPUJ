@@ -89,7 +89,7 @@ public class Home extends AppCompatActivity {
     }
 
     private String getUsername() {
-        return "Hola";
+        return "Passenger";
     }
 
     private void loadFragment(Fragment fragment) {
