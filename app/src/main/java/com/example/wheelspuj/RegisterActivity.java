@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,7 @@ import org.javatuples.Pair;
 import java.util.Date;
 
 
-public class RegisterActivity extends AppCompatActivity  {
+public class RegisterActivity extends AppCompatActivity implements ReplaceFragmentListener{
 
     PassengerFormFragment passengerFragment;
     DriverFormFragment driverFragment;
@@ -36,6 +37,13 @@ public class RegisterActivity extends AppCompatActivity  {
     boolean secondClick = true;
     static final String USER_CN = "User";
     static final String TAG = "RegisterActivity";
+    private boolean driver = false;
+    private String username;
+    private String password;
+    private String names;
+    private String last;
+    private String phone;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +60,6 @@ public class RegisterActivity extends AppCompatActivity  {
         opciones_rol = findViewById(R.id.opciones_rol);
         driverOption = findViewById(R.id.radio_driver);
         passengerOption = findViewById(R.id.radio_passenger);
-        loginButton = findViewById(R.id.logginButtonn);
         CharSequence next = (CharSequence)"Next";
         CharSequence LoginUser = (CharSequence) "Login User";
 
@@ -76,11 +83,13 @@ public class RegisterActivity extends AppCompatActivity  {
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        /*loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("firstClick: " + firstclick);
                 System.out.println("SecondClick: " + secondClick);
+                Log.i(TAG, "User: "+passengerFragment.correo);
+                Log.i(TAG, "Password: "+passengerFragment.contra1);
                 if (!userExists(passengerFragment.correo.getText().toString())) {
                     Pair<Boolean, String> user = createUser();
                     String username=user.getValue1();
@@ -97,8 +106,6 @@ public class RegisterActivity extends AppCompatActivity  {
                             firstclick = true;
                             textRol.setVisibility(View.INVISIBLE);
                             opciones_rol.setVisibility(View.INVISIBLE);
-
-
                         } else if (firstclick && !secondClick) {
                             System.out.println("finall");
                             Intent intent = new Intent(RegisterActivity.this, DriverHome.class);
@@ -108,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity  {
                     }
                 }
             }
-        });
+        });*/
     }
 
     boolean userExists(String username){
@@ -126,32 +133,63 @@ public class RegisterActivity extends AppCompatActivity  {
     }
 
     Pair<Boolean, String> createUser(){
-        ParseQuery parseQuery = ParseQuery.getQuery(USER_CN);
-        Boolean driver=(driverOption.isChecked());
-        String username=passengerFragment.correo.getText().toString();
-        String password=passengerFragment.contra1.getText().toString();
-        if (!passengerFragment.contra2.getText().toString().equals(password))
-        username=null;
-        if(username!=null) {
-            final ParseObject firstObject = new ParseObject(USER_CN);
-            if (firstObject != null) {
-                firstObject.put("username", username);
-                firstObject.put("password", password);
-                firstObject.put("nombres", passengerFragment.nombres.getText().toString());
-                firstObject.put("apellidos", passengerFragment.apellidos.getText().toString());
-                firstObject.put("driver", driver);
-                try {
-                    firstObject.save();
-                } catch (Exception e) {
-                    Log.e(TAG, "Error happened saving object");
-                }
-                try {
-                    Log.i(TAG, "ID is " + parseQuery.whereContains("username", username).getFirst().getObjectId());
-                } catch (Exception e) {
-                    Log.e(TAG, "Error happened getting object ID");
+        Thread t=new Thread() {
+            @Override
+            public void run() {
+                ParseQuery parseQuery = ParseQuery.getQuery(USER_CN);
+                if (username != null) {
+                    if (!userExists(username)) {
+                        final ParseObject firstObject = new ParseObject(USER_CN);
+                        if (firstObject != null) {
+                            firstObject.put("username", username);
+                            firstObject.put("password", password);
+                            firstObject.put("nombres", names);
+                            firstObject.put("apellidos", last);
+                            firstObject.put("driver", driver);
+                            try {
+                                firstObject.save();
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error happened saving object");
+                            }
+                            try {
+                                Log.i(TAG, "ID is " + parseQuery.whereContains("username", username).getFirst().getObjectId());
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error happened getting object ID");
+                            }
+                        }
+                    } else
+                        Log.e(TAG, "Tratando de crear un usuario ya existente");
+                        //Toast.makeText(getApplicationContext(), "Usuario ya existe", Toast.LENGTH_LONG).show();
                 }
             }
-        }
+        };
+        t.start();
         return new Pair<>(driver, username);
+    }
+
+    @Override
+    public void showMainFragment(String key, String value) {
+        switch (key){
+            case "username":
+                username=value;
+                break;
+            case "password":
+                password=value;
+                break;
+            case "names":
+                names=value;
+                break;
+            case "last":
+                last=value;
+                break;
+            case "phone":
+                phone=value;
+                break;
+            case "driver":
+                driver=(value.equals("true"))?true:false;
+                if (!driver && !driverOption.isChecked() || driver && driverOption.isChecked())
+                createUser();
+                break;
+        }
     }
 }

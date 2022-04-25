@@ -46,7 +46,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_time_to_leave_24.xml" value="0.1345" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3723958333333333" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_driver_form.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_google_map.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/fragment_passenger_form.xml" value="0.18333333333333332" />

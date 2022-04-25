@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     implementation 'com.github.parse-community:ParseLiveQuery-Android:1.2.2'
     implementation 'org.javatuples:javatuples:1.2'
+    implementation 'com.github.mac229.FragmentUtils:fragmentutils:1.2.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

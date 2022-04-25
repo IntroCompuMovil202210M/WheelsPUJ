@@ -45,12 +45,12 @@
 
         <RadioGroup
             android:id="@+id/opciones_rol"
-            android:layout_width="302dp"
+            android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginBottom="20dp"
             android:background="@drawable/inputform"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/logginButtonn"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -70,17 +70,6 @@
 
                 android:text="@string/driverOption" />
         </RadioGroup>
-
-        <Button
-            android:id="@+id/logginButtonn"
-            android:layout_width="243dp"
-            android:layout_height="54dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/form_background"
-            android:text="@string/login_user"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
