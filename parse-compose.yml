@@ -9,7 +9,7 @@ services:
       - 1337:1337
     links:
       - mongo:my-mongo
-    command: --appId wheelspuj --masterKey mymasterkey --databaseURI mongodb://mongo/test --startLiveQueryServer --liveQuery "{\"classNames\":[\"SmartUser\"]}"
+    command: --appId wheelspuj --masterKey mymasterkey --databaseURI mongodb://mongo/test --startLiveQueryServer --liveQuery "{\"classNames\":[\"SmartUser\", \"User\"]}"
     depends_on:
       - mongo
   parse-dashboard:

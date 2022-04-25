@@ -74,7 +74,7 @@ public class DriverHome extends AppCompatActivity {
     }
 
     private String getUsername() {
-        return "Driver";
+        return getIntent().getStringExtra("username");
     }
 
     private void loadFragment(Fragment fragment) {

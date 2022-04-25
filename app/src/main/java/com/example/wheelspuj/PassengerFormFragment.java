@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +26,13 @@ public class PassengerFormFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    TextView nombres;
+    TextView apellidos;
+    TextView telefono;
+    TextView correo;
+    TextView contra1;
+    TextView contra2;
 
     public PassengerFormFragment() {
         // Required empty public constructor
@@ -53,6 +63,12 @@ public class PassengerFormFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        nombres=getActivity().findViewById(R.id.nombres);
+        apellidos=getActivity().findViewById(R.id.apellidos);
+        telefono=getActivity().findViewById(R.id.telefono);
+        correo=getActivity().findViewById(R.id.correo);
+        contra1=getActivity().findViewById(R.id.contrasenia1);
+        contra2=getActivity().findViewById(R.id.contrasenia2);
     }
 
     @Override
