@@ -35,7 +35,7 @@ public class PassengerFormFragment extends Fragment {
             mCallback = FragmentUtils.getListener(this, ReplaceFragmentListener.class);
         } catch (ClassCastException e) {
             throw new ClassCastException(ctx.toString()
-                    + " must implement FragmentToActivity");
+                    + " must implement Interface");
         }
     }
 

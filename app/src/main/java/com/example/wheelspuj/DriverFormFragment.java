@@ -1,13 +1,19 @@
 package com.example.wheelspuj;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.maciejkozlowski.fragmentutils.FragmentUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,10 +22,24 @@ import android.widget.Button;
  */
 public class DriverFormFragment extends Fragment {
 
+    //For communication with Activity
+    private ReplaceFragmentListener mCallback;
+    @Override
+    public void onAttach(Context ctx) {
+        super.onAttach(ctx);
+        try {
+            mCallback = FragmentUtils.getListener(this, ReplaceFragmentListener.class);
+        } catch (ClassCastException e) {
+            throw new ClassCastException(ctx.toString()
+                    + " must implement Interface");
+        }
+    }
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "DriverF";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,17 +78,29 @@ public class DriverFormFragment extends Fragment {
     }
 
     @Override
+    public void onDetach() {
+        Log.i(TAG, "onDetach");
+        super.onDetach();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_driver_form, container, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         logIn=getActivity().findViewById(R.id.logginButtonD);
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //TODO: Verificar arhivos, guardarlos y enviarlos si hace falta
+                mCallback.showMainFragment("driver", "true");
             }
         });
-        return v;
     }
 }

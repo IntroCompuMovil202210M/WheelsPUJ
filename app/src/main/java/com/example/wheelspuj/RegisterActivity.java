@@ -60,16 +60,15 @@ public class RegisterActivity extends AppCompatActivity implements ReplaceFragme
         opciones_rol = findViewById(R.id.opciones_rol);
         driverOption = findViewById(R.id.radio_driver);
         passengerOption = findViewById(R.id.radio_passenger);
+        loginButton=findViewById(R.id.logginButtonn);
         CharSequence next = (CharSequence)"Next";
         CharSequence LoginUser = (CharSequence) "Login User";
 
         driverOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginButton.setText(next);
                 firstclick = false;
                 secondClick = true;
-
             }
 
         });
@@ -77,7 +76,6 @@ public class RegisterActivity extends AppCompatActivity implements ReplaceFragme
         passengerOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginButton.setText(LoginUser);
                 firstclick = false;
                 secondClick = false;
             }
