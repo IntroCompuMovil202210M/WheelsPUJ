@@ -117,6 +117,7 @@ public class PassengerFormFragment extends Fragment {
                     mCallback.showMainFragment("phone", telefono.getText().toString());
                     mCallback.showMainFragment("password", contra1.getText().toString());
                     mCallback.showMainFragment("driver","false");
+                    mCallback.showMainFragment("pf", "done");
                 }else
                     Toast.makeText(getContext(), "Password is not valid", Toast.LENGTH_LONG).show();
             }

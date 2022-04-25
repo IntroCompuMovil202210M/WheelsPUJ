@@ -70,7 +70,6 @@ public class RegisterActivity extends AppCompatActivity implements ReplaceFragme
                 firstclick = false;
                 secondClick = true;
             }
-
         });
 
         passengerOption.setOnClickListener(new View.OnClickListener() {
@@ -167,26 +166,33 @@ public class RegisterActivity extends AppCompatActivity implements ReplaceFragme
 
     @Override
     public void showMainFragment(String key, String value) {
-        switch (key){
+        switch (key) {
             case "username":
-                username=value;
+                username = value;
                 break;
             case "password":
-                password=value;
+                password = value;
                 break;
             case "names":
-                names=value;
+                names = value;
                 break;
             case "last":
-                last=value;
+                last = value;
                 break;
             case "phone":
-                phone=value;
+                phone = value;
+                break;
+            case "pf":
+                if (driverOption.isChecked())
+                {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.formContainer, driverFragment).commit();
+                }
                 break;
             case "driver":
                 driver=(value.equals("true"))?true:false;
                 if (!driver && !driverOption.isChecked() || driver && driverOption.isChecked())
-                createUser();
+                    createUser();
                 break;
         }
     }
