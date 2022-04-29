@@ -1,12 +1,22 @@
 package com.example.wheelspuj;
 
 
+import static android.content.Context.SENSOR_SERVICE;
+import static android.hardware.Sensor.TYPE_LIGHT;
+import static android.hardware.Sensor.TYPE_PROXIMITY;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,6 +26,7 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -25,12 +36,12 @@ import androidx.preference.PreferenceManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -47,12 +58,12 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OSMap extends Fragment {
@@ -74,6 +85,8 @@ public class OSMap extends Fragment {
     HashMap<String, Triplet<GeoPoint, String, Boolean>> locations;
     //To save last known location
     GeoPoint lastLocation = null;
+    // Proximity sensor
+    WindowManager.LayoutParams params=null;
     //Who is there
     String username;
     //If it is a driver or not
@@ -83,12 +96,27 @@ public class OSMap extends Fragment {
     //Parse live query
     ParseLiveQueryClient parseLiveQueryClient=null;
     ParseQuery<ParseObject> parseQuery=null; //suscription to changes
+    //Sensors
+    SensorManager sensorManager=null;
+    Sensor proximitySensor=null;
+    Sensor lightSensor=null;
+    SensorEventListener lightChangeListener;
+    SensorEventListener proximityChangeListener;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.i(TAG, "onViewCreated called");
+        params=getActivity().getWindow().getAttributes();
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_osmap, container, false);
+        sensorManager = (SensorManager) getContext().getSystemService(SENSOR_SERVICE);
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
         parseQuery = ParseQuery.getQuery(USER_CN);
         Context ctx = getActivity().getApplicationContext();
@@ -133,7 +161,55 @@ public class OSMap extends Fragment {
                 }
             });
         }
+        startLightSensor();
+        startProximitySensor();
         return view;
+    }
+
+    private void startLightSensor() {
+        lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
+        float max = lightSensor.getMaximumRange();
+        lightChangeListener = new SensorEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float val = sensorEvent.values[0];
+                if (val <= max / 2)
+                    map.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
+                else map.getOverlayManager().getTilesOverlay().setColorFilter(new BlendModeColorFilter(1, BlendMode.DARKEN));;
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+    }
+
+    private void startProximitySensor() {
+        proximitySensor = sensorManager.getDefaultSensor(TYPE_PROXIMITY);
+        proximityChangeListener = new SensorEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                Log.i(TAG, "Proximity change");
+                float val = sensorEvent.values[0];
+                if (val <= 1)
+                    movePossibility(false);
+                else movePossibility(true);
+            }
+
+            private void movePossibility(boolean b) {
+                map.getController().setZoom((b)?18.0:20.0);
+                params.screenBrightness = (!b) ? 0:-1f;
+                getActivity().getWindow().setAttributes(params);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
     }
 
     private void loadUsers(){
@@ -380,6 +456,13 @@ public class OSMap extends Fragment {
     public void onPause() {
         super.onPause(); 
         Log.i(TAG, "onPause called");
+        if (sensorManager!=null)
+        {
+            if (proximitySensor!=null)
+                sensorManager.unregisterListener(proximityChangeListener);
+            if (lightSensor!=null)
+                sensorManager.unregisterListener(lightChangeListener);
+        }
         if (locationOverlay!=null) {
             locationOverlay.disableFollowLocation();
             locationOverlay.disableMyLocation();
@@ -390,6 +473,13 @@ public class OSMap extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i(TAG, "onResume called");
+        if (sensorManager!=null)
+        {
+            if (proximitySensor!=null)
+                sensorManager.registerListener(proximityChangeListener, proximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
+            if (lightSensor!=null)
+                sensorManager.registerListener(lightChangeListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        }
         if (locationOverlay!=null) {
             locationOverlay.enableFollowLocation();
             locationOverlay.enableMyLocation();
