@@ -48,4 +48,9 @@
     <string name="passengerOption">Pasajero</string>
     <string name="driverOption">Conductor</string>
     <string name="rolTextTextView">Seleccione su rol</string>
+        <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+        <!-- Change BOTH strings as required -->
+        <string name="back4app_app_id">gQpX3BUJv6mQjw5KurMZur5ToSdZ94ZVonFjxQas</string>
+        <string name="back4app_client_key">jMRfoiqT6Crp3lExnAojwY9T5ndb9RA6EfnONlzK</string>
 </resources>

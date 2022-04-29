@@ -20,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView emailInput;
     private TextView passwordInput;
-    static final String USER_CN = "User";
+    static final String USER_CN = "UserCheck";
     static final String TAG = "LoginActivity";
 
     static Pair<Boolean, String> logIn(String username, String password) {

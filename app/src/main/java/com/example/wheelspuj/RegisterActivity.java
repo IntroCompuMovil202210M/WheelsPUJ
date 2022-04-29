@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity implements ReplaceFragme
     Button loginButton;
     boolean firstclick = true;
     boolean secondClick = true;
-    static final String USER_CN = "User";
+    static final String USER_CN = "UserCheck";
     static final String TAG = "RegisterActivity";
     private boolean driver = false;
     private String username;

@@ -16,12 +16,16 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class Home extends AppCompatActivity {
     FloatingActionButton floatingButton;
     ExtendedFloatingActionButton button;
     ImageButton backHome;
     NavigationView nav;
+    static final String USER_CN = "UserCheck";
 
 
     @Override
@@ -32,7 +36,7 @@ public class Home extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Fragment fragment = new OSMap(getUsername(), false);
         Fragment possibleTrips=new PossibleTrips();
-        Fragment profile=new Profile();
+        Fragment profile=new Profile(getUsername(), getPhone());
         Fragment historial=new TripsHistorial();
         loadFragment(fragment);
         floatingButton = findViewById(R.id.home);
@@ -86,6 +90,21 @@ public class Home extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private String getPhone(){
+        String phone=null;
+        ParseQuery parseQuery = ParseQuery.getQuery(USER_CN);
+        try {
+            for (Object obj : parseQuery.find()) {
+                ParseObject row= (ParseObject) obj;
+                if (getUsername().equals(row.get("username")))
+                    phone = (String) row.get("phone");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return phone;
     }
 
     private String getUsername() {

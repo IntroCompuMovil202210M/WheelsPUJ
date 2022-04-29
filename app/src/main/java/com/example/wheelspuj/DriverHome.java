@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.Objects;
 
@@ -25,6 +28,7 @@ public class DriverHome extends AppCompatActivity {
     ExtendedFloatingActionButton button;
     ImageButton backHome;
     NavigationView nav;
+    static final String USER_CN = "UserCheck";
 
 
     @SuppressLint("NonConstantResourceId")
@@ -35,7 +39,7 @@ public class DriverHome extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Fragment fragment = new OSMap(getUsername(), true);
-        Fragment profile=new Profile();
+        Fragment profile=new Profile(getUsername(), getPhone());
         Fragment historial=new TripsHistorial();
         loadFragment(fragment);
         floatingButton = findViewById(R.id.home);
@@ -75,6 +79,21 @@ public class DriverHome extends AppCompatActivity {
 
     private String getUsername() {
         return getIntent().getStringExtra("username");
+    }
+
+    private String getPhone(){
+        String phone=null;
+        ParseQuery parseQuery = ParseQuery.getQuery(USER_CN);
+        try {
+            for (Object obj : parseQuery.find()) {
+                ParseObject row= (ParseObject) obj;
+                if (getUsername().equals(row.get("username")))
+                    phone = (String) row.get("phone");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return phone;
     }
 
     private void loadFragment(Fragment fragment) {
