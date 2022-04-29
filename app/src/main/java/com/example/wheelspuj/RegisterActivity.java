@@ -142,6 +142,7 @@ public class RegisterActivity extends AppCompatActivity implements ReplaceFragme
                             firstObject.put("password", password);
                             firstObject.put("nombres", names);
                             firstObject.put("apellidos", last);
+                            firstObject.put("phone", phone);
                             firstObject.put("driver", driver);
                             try {
                                 firstObject.save();
