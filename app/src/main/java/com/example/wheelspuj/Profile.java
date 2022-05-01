@@ -61,10 +61,10 @@ public class Profile extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        telefono = getActivity().findViewById(R.id.txtPhone);
-        mail = getActivity().findViewById(R.id.txtEmail);
-        mail.setText(this.username);
-        telefono.setText(this.phone);
+        telefono = getActivity().findViewById(R.id.textView4);
+        mail = getActivity().findViewById(R.id.textView2);
+        mail.append(this.username);
+        telefono.append(this.phone);
         image = getActivity().findViewById(R.id.imageView);
         picker = getActivity().findViewById(R.id.pickImage);
         picker.setOnClickListener(view1 -> {

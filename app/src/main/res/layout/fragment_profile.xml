@@ -39,25 +39,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/email" />
+        android:text="@string/email"/>
 
     <TextView
+        android:text="@string/phone"
         android:layout_margin="10dp"
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/phone" />
+       />
 
-    <TextView
-        android:id="@+id/txtEmail"
+    <Button
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text="Cerrar sesion"
 
-    <TextView
-        android:id="@+id/txtPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
-
+        android:layout_gravity="bottom|center"/>
 </LinearLayout>
