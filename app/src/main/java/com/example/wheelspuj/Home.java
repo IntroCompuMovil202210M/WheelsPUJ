@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import androidx.fragment.app.FragmentManager;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,11 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class Home extends AppCompatActivity {
+    public static Context contextOfApplication;
+    public static Context getContextOfApplication()
+    {
+        return contextOfApplication;
+    }
     FloatingActionButton floatingButton;
     ExtendedFloatingActionButton button;
     ImageButton backHome;
@@ -34,6 +41,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getSupportActionBar().hide();
+        contextOfApplication = getApplicationContext();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Fragment fragment = new OSMap(getUsername(), false);
         Fragment possibleTrips=new PossibleTrips();

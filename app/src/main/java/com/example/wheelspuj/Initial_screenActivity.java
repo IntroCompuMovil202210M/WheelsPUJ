@@ -18,20 +18,14 @@ public class Initial_screenActivity extends AppCompatActivity {
         link = findViewById(R.id.registerLink);
         login = findViewById(R.id.loginButton);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Initial_screenActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
+        login.setOnClickListener(view -> {
+            Intent intent = new Intent(Initial_screenActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
 
-        link.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Initial_screenActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
+        link.setOnClickListener(view -> {
+            Intent intent = new Intent(Initial_screenActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
 
