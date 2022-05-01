@@ -15,9 +15,6 @@ public class Initial_screenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.initial_screen);
-
-
-        Bundle extra = getIntent().getExtras();
         link = findViewById(R.id.registerLink);
         login = findViewById(R.id.loginButton);
 

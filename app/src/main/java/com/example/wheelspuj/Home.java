@@ -2,28 +2,31 @@ package com.example.wheelspuj;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.app.ActionBar;
-import android.media.Image;
+import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class Home extends AppCompatActivity {
     FloatingActionButton floatingButton;
     ExtendedFloatingActionButton button;
     ImageButton backHome;
     NavigationView nav;
+    static final String USER_CN = "UserCheck";
 
 
     @Override
@@ -32,11 +35,11 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Fragment fragment = new GoogleMap();
+        Fragment fragment = new OSMap(getUsername(), false);
         Fragment possibleTrips=new PossibleTrips();
-        Fragment profile=new Profile();
+        Fragment profile=new Profile(getUsername(), getPhone());
         Fragment historial=new TripsHistorial();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        loadFragment(fragment);
         floatingButton = findViewById(R.id.home);
         backHome = findViewById(R.id.backHome);
         nav = findViewById(R.id.navId);
@@ -57,7 +60,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Home.this,"Trips",Toast.LENGTH_SHORT).show();
-                //getSupportFragmentManager().beginTransaction().replace(R.id.button,possibleTrips).commit();
+                loadFragment(possibleTrips);
             }
         });
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -66,17 +69,17 @@ public class Home extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.nav_inicio:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+                        loadFragment(fragment);
                         nav.setVisibility(View.INVISIBLE);
                         button.setVisibility(View.VISIBLE);
                         break;
                     case R.id.nav_home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profile).commit();
+                        loadFragment(profile);
                         nav.setVisibility(View.INVISIBLE);
                         button.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.nav_viajes:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, historial).commit();
+                        loadFragment(historial);
                         nav.setVisibility(View.INVISIBLE);
                         button.setVisibility(View.INVISIBLE);
                         break;
@@ -88,5 +91,31 @@ public class Home extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private String getPhone(){
+        String phone=null;
+        ParseQuery parseQuery = ParseQuery.getQuery(USER_CN);
+        try {
+            for (Object obj : parseQuery.find()) {
+                ParseObject row= (ParseObject) obj;
+                if (getUsername().equals(row.get("username")))
+                    phone = (String) row.get("phone");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return phone;
+    }
+
+    private String getUsername() {
+        return getIntent().getStringExtra("username");
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit(); // save the changes
     }
 }

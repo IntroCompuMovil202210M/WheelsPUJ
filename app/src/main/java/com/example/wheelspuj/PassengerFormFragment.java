@@ -1,12 +1,23 @@
 package com.example.wheelspuj;
 
+import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.maciejkozlowski.fragmentutils.FragmentUtils;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,14 +26,37 @@ import android.view.ViewGroup;
  */
 public class PassengerFormFragment extends Fragment {
 
+    //For communication with Activity
+    private ReplaceFragmentListener mCallback;
+    @Override
+    public void onAttach(Context ctx) {
+        super.onAttach(ctx);
+        try {
+            mCallback = FragmentUtils.getListener(this, ReplaceFragmentListener.class);
+        } catch (ClassCastException e) {
+            throw new ClassCastException(ctx.toString()
+                    + " must implement Interface");
+        }
+    }
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "PassengerF";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    TextView nombres;
+    TextView apellidos;
+    TextView telefono;
+    TextView correo;
+    TextView contra1;
+    TextView contra2;
+    Button logIn;
 
     public PassengerFormFragment() {
         // Required empty public constructor
@@ -59,6 +93,40 @@ public class PassengerFormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_passenger_form, container, false);
+        View v= inflater.inflate(R.layout.fragment_passenger_form, container, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        nombres=getActivity().findViewById(R.id.nombres);
+        apellidos=getActivity().findViewById(R.id.apellidos);
+        telefono=getActivity().findViewById(R.id.telefono);
+        correo=getActivity().findViewById(R.id.correo);
+        contra1=getActivity().findViewById(R.id.contrasenia1);
+        contra2=getActivity().findViewById(R.id.contrasenia2);
+        logIn=getActivity().findViewById(R.id.logginButtonn);
+        logIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (contra1.getText().toString().equals(contra2.getText().toString())){
+                    mCallback.showMainFragment("names", nombres.getText().toString());
+                    mCallback.showMainFragment("last", apellidos.getText().toString());
+                    mCallback.showMainFragment("username", correo.getText().toString());
+                    mCallback.showMainFragment("phone", telefono.getText().toString());
+                    mCallback.showMainFragment("password", contra1.getText().toString());
+                    mCallback.showMainFragment("driver","false");
+                    mCallback.showMainFragment("pf", "done");
+                }else
+                    Toast.makeText(getContext(), "Password is not valid", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDetach() {
+        Log.i(TAG, "onDetach");
+        super.onDetach();
     }
 }

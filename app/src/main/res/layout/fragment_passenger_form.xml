@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/textView6"
+        android:id="@+id/nombres"
         android:layout_width="308dp"
         android:layout_height="48dp"
         android:layout_marginTop="25dp"
@@ -38,7 +38,7 @@
 
 
     <EditText
-        android:id="@+id/textView8"
+        android:id="@+id/apellidos"
         android:layout_width="308dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -50,10 +50,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/nombres" />
 
     <EditText
-        android:id="@+id/textView9"
+        android:id="@+id/telefono"
         android:layout_width="308dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -65,10 +65,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/apellidos" />
 
     <EditText
-        android:id="@+id/textView10"
+        android:id="@+id/correo"
         android:layout_width="308dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -80,10 +80,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/telefono" />
 
     <EditText
-        android:id="@+id/textView11"
+        android:id="@+id/contrasenia1"
         android:layout_width="308dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -96,10 +96,10 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/correo" />
 
     <EditText
-        android:id="@+id/textView12"
+        android:id="@+id/contrasenia2"
         android:layout_width="308dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -113,9 +113,18 @@
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/contrasenia1" />
 
-
+    <Button
+        android:id="@+id/logginButtonn"
+        android:layout_width="243dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/form_background"
+        android:text="@string/login_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contrasenia2" />
 
 
 
