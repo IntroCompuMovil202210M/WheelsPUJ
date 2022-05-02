@@ -92,7 +92,7 @@ public class Home extends AppCompatActivity {
                         button.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.nav_info:
-                        Toast.makeText(Home.this, "Info is clicked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Home.this, "Info was clicked", Toast.LENGTH_SHORT).show();
                         break;
 
                 }

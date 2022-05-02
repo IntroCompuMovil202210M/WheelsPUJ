@@ -64,20 +64,14 @@ public class RegisterActivity extends AppCompatActivity implements ReplaceFragme
         CharSequence next = (CharSequence)"Next";
         CharSequence LoginUser = (CharSequence) "Login User";
 
-        driverOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firstclick = false;
-                secondClick = true;
-            }
+        driverOption.setOnClickListener(view -> {
+            firstclick = false;
+            secondClick = true;
         });
 
-        passengerOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firstclick = false;
-                secondClick = false;
-            }
+        passengerOption.setOnClickListener(view -> {
+            firstclick = false;
+            secondClick = false;
         });
 
         /*loginButton.setOnClickListener(new View.OnClickListener() {
