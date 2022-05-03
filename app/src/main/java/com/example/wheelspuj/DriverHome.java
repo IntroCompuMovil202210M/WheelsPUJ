@@ -6,6 +6,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -70,11 +74,25 @@ public class DriverHome extends AppCompatActivity {
                 case R.id.nav_info:
                     Toast.makeText(DriverHome.this, "Info is clicked", Toast.LENGTH_SHORT).show();
                     break;
-                default:
+                case R.id.nav_out:
+                    Toast.makeText(DriverHome.this, "Log-Out", Toast.LENGTH_LONG).show();
+                    clearCache();
+                    Intent intent = new Intent(DriverHome.this, Initial_screenActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    break;
 
             }
             return false;
         });
+    }
+
+    private void clearCache() {
+        final String PREFS = "SelfExpPrefs";
+        SharedPreferences preferences=getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit=preferences.edit();
+        edit.clear();
+        edit.commit();
     }
 
     private String getUsername() {

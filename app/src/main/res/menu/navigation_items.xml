@@ -18,5 +18,9 @@
         android:id="@+id/nav_info"
         android:icon="@drawable/info"
         android:title="Acerca de" />
+    <item
+        android:id="@+id/nav_out"
+        android:icon="@drawable/cast_abc_scrubber_primary_mtrl_alpha"
+        android:title="Salir" />
 
 </menu>

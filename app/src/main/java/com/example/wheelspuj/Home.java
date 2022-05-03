@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,11 +96,25 @@ public class Home extends AppCompatActivity {
                     case R.id.nav_info:
                         Toast.makeText(Home.this, "Info is clicked", Toast.LENGTH_SHORT).show();
                         break;
-
+                    case R.id.nav_out:
+                        Toast.makeText(Home.this, "Log-Out", Toast.LENGTH_LONG).show();
+                        clearCache();
+                        Intent intent = new Intent(Home.this, Initial_screenActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        break;
                 }
                 return false;
             }
         });
+    }
+
+    private void clearCache() {
+        final String PREFS = "SelfExpPrefs";
+        SharedPreferences preferences=getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit=preferences.edit();
+        edit.clear();
+        edit.commit();
     }
 
     private String getPhone(){

@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i(TAG, "User is" + username + id.equals(stringHash));
                             if (id.equals(stringHash)) {
                                 driver = (Boolean) row.get("driver");
-    done=true;
+                                done=true;
                             }
                         }
                     }
@@ -100,10 +100,12 @@ public class LoginActivity extends AppCompatActivity {
             if (!driver) {
                 Intent intent = new Intent(LoginActivity.this, Home.class);
                 intent.putExtra("username", username);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(LoginActivity.this, DriverHome.class);
                 intent.putExtra("username", username);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         }
@@ -121,10 +123,12 @@ public class LoginActivity extends AppCompatActivity {
                     if (!pair.getValue0()) {
                         Intent intent = new Intent(LoginActivity.this, Home.class);
                         intent.putExtra("username", username);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(LoginActivity.this, DriverHome.class);
                         intent.putExtra("username", username);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 }
