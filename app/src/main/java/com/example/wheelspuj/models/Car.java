@@ -40,4 +40,9 @@ public class Car implements Serializable {
     public void setLimit(int limit) {
         this.limit = limit;
     }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }

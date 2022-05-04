@@ -35,6 +35,8 @@ import androidx.fragment.app.FragmentContainerView;
 import com.example.wheelspuj.R;
 import com.example.wheelspuj.models.CustomLocation;
 import com.example.wheelspuj.models.Geopoint;
+import com.example.wheelspuj.models.Route;
+import com.example.wheelspuj.services.FirebaseService;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.common.api.ApiException;
@@ -248,7 +250,11 @@ public class NewRoute extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // añadir ruta
-
+                Route route = new Route();
+                String idDriver = prefs.getString("idDriver", "");
+                route.setIdDriver(idDriver);
+                FirebaseService firebaseService = new FirebaseService();
+                firebaseService.writeNewRoute(route);
                 Intent intent = new Intent(NewRoute.this, DriverMainActivity.class);
                 startActivity(intent);
             }

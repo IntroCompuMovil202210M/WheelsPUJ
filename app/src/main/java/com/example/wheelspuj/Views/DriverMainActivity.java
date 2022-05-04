@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 
@@ -23,8 +24,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.wheelspuj.R;
 import com.example.wheelspuj.models.Driver;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -36,7 +40,7 @@ public class DriverMainActivity extends AppCompatActivity {
     TextView name;
     Button goRoutes;
     Button add_Route;
-    Button goCars, closeSession;
+    Button goCars, closeSession, add_car;
     FragmentContainerView routesFragment;
     ImageView profilePicture;
 
@@ -55,17 +59,27 @@ public class DriverMainActivity extends AppCompatActivity {
         setContentView(R.layout.driver_main_activity);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("/drivers");
         email = getIntent().getStringExtra("user");
 
         prefs = getSharedPreferences(this.getString(R.string.app_name), MODE_PRIVATE);
         editor = prefs.edit();
 
-        getDriver();
-
-        goCars = findViewById(R.id.button3);
+        goCars = findViewById(R.id.show_carsButton);
         closeSession = findViewById(R.id.closeSession);
         profilePicture = findViewById(R.id.user_picture);
+        add_car = findViewById(R.id.addCar);
+
+        // loadUser();
+        getDriver();
+        add_car.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), Add_car.class);
+                //intent.putExtra("user", currentUser.getEmail());
+                startActivity(intent);
+            }
+        });
 
 
 //        routesFragment = findViewById(R.id.fragmentRoutes);
@@ -79,15 +93,16 @@ public class DriverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
+                editor.clear();
                 startActivity(new Intent(DriverMainActivity.this, Initial_screenActivity.class));
             }
         });
 
         goRoutes = findViewById(R.id.routesButton);
-        goRoutes.setOnClickListener(new View.OnClickListener() {
+        goCars.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(DriverMainActivity.this, ShowCars.class));
 
                 /*
                 if(  ){
@@ -113,6 +128,31 @@ public class DriverMainActivity extends AppCompatActivity {
 
     }
 
+    private void loadUser() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Driver driver = dataSnapshot.getValue(Driver.class);
+                    if (driver.getEmail().equals(email)) {
+                        editor.putString("idDriver", driver.getId());
+                        editor.commit();
+                        name.setText(driver.getName());
+                        byte[] imageBytes;
+                        imageBytes = Base64.decode(driver.getImage(), Base64.DEFAULT);
+                        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                        profilePicture.setImageBitmap(decodedImage);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void getDriver() {
         requestQueue = Volley.newRequestQueue(this);
         String url = "https://wheelspujmovil-default-rtdb.firebaseio.com/drivers.json";
@@ -127,6 +167,7 @@ public class DriverMainActivity extends AppCompatActivity {
                             if (d.getEmail().equals(email)) {
                                 editor.putString("idDriver", d.getId());
                                 editor.commit();
+                                name.setText(d.getName());
                                 byte[] imageBytes;
                                 imageBytes = Base64.decode(d.getImage(), Base64.DEFAULT);
                                 Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);

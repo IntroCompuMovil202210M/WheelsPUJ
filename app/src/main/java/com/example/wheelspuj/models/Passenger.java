@@ -7,6 +7,8 @@ public class Passenger implements Serializable {
     private String name;
     private String surname;
     private String currentRouteId;
+    private String email;
+    private String image;
 
 
     public Passenger(String name, String surname) {
@@ -47,5 +49,21 @@ public class Passenger implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

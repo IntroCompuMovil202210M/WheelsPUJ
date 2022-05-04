@@ -8,6 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/creteView"
+        android:background="@drawable/form_background"
         android:name="com.example.wheelspuj.fragments.CreateRoute"
         android:layout_width="385dp"
         android:layout_height="208dp"
