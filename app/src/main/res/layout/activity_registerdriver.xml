@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    tools:context=".Views.RegisterDriverActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/formContainer"
+        android:layout_width="369dp"
+        android:layout_height="646dp"
+        android:background="@drawable/form_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.786">
+
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="308dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:autofillHints=""
+            android:background="@drawable/inputform"
+            android:gravity="center"
+            android:hint="@string/name_inputHint"
+            android:textAlignment="gravity"
+            android:textColorHint="#757575"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/add_photo"
+            android:layout_width="310dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="12dp"
+            android:text="Adjuntar Foto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/licence_button" />
+
+        <EditText
+            android:id="@+id/surnameInput"
+            android:layout_width="308dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/inputform"
+            android:gravity="center"
+            android:hint="@string/suname_inputHint"
+            android:textAlignment="gravity"
+            android:textColorHint="#757575"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameInput" />
+
+        <EditText
+            android:id="@+id/idInput"
+            android:layout_width="308dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/inputform"
+            android:gravity="center"
+            android:hint="Cédula"
+            android:textAlignment="gravity"
+            android:textColorHint="#757575"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/surnameInput" />
+
+        <EditText
+            android:id="@+id/phoneInput"
+            android:layout_width="308dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/inputform"
+            android:gravity="center"
+            android:hint="@string/phone_inputHint"
+            android:textAlignment="gravity"
+            android:textColorHint="#757575"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idInput" />
+
+        <Button
+            android:id="@+id/licence_button"
+            android:layout_width="310dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="12dp"
+            android:text="Adjuntar licencia de conducción "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.514"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password_input2" />
+
+        <EditText
+            android:id="@+id/email_Input"
+            android:layout_width="308dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/inputform"
+            android:gravity="center"
+            android:hint="@string/email_inputHint"
+            android:textAlignment="gravity"
+            android:textColorHint="#757575"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneInput" />
+
+        <EditText
+            android:id="@+id/password_input1"
+            android:layout_width="308dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/inputform"
+            android:inputType="textPassword"
+            android:gravity="center"
+            android:hint="@string/password_inputHint"
+            android:textAlignment="gravity"
+            android:textColorHint="#757575"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_Input" />
+
+        <EditText
+            android:id="@+id/password_input2"
+            android:layout_width="308dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:autofillHints=""
+            android:background="@drawable/inputform"
+            android:inputType="textPassword"
+            android:gravity="center"
+            android:hint="@string/repeatpassword_inputHint"
+            android:textAlignment="gravity"
+            android:textColorHint="#757575"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password_input1" />
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="243dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/form_background"
+            android:text="@string/login_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_photo" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

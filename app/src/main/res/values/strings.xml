@@ -44,7 +44,7 @@
     <string name="email_inputHint">Correo</string>
     <string name="password_inputHint">Contraseña</string>
     <string name="repeatpassword_inputHint">Confirme su contraseña</string>
-    <string name="login_user">Next</string>
+    <string name="login_user">Registrar</string>
     <string name="passengerOption">Pasajero</string>
     <string name="driverOption">Conductor</string>
     <string name="rolTextTextView">Seleccione su rol</string>

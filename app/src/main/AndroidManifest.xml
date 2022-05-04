@@ -34,25 +34,38 @@
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
         <activity
-            android:name=".DriverHome"
+            android:name=".Views.ShowRoute"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Views.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Views.NewRoute"
             android:exported="false" />
         <activity
-            android:name=".Home"
+            android:name=".Views.RegisterDriverActivity"
             android:exported="false" />
         <activity
-            android:name=".Initial_screenActivity"
+            android:name=".Views.DriverMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Views.Initial_screenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.wheelspuj"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

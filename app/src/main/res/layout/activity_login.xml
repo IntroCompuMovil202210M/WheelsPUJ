@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/gradient_background"
+    tools:context=".Views.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="354dp"
@@ -29,7 +29,6 @@
             app:srcCompat="@drawable/logo" />
 
         <EditText
-             android:textColor="@color/javeBlue"
             android:id="@+id/emailInput"
             android:layout_width="300dp"
             android:layout_height="50dp"
@@ -37,21 +36,22 @@
             android:drawableEnd="@drawable/email_icon"
             android:hint="@string/email_hint"
             android:paddingBottom="15dp"
+            android:textColor="@color/javeBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.464"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
         <EditText
-             android:textColor="@color/javeBlue"
             android:id="@+id/passwordInput"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginTop="84dp"
             android:drawableEnd="@drawable/password_icon"
-            android:inputType="textPassword"
             android:hint="@string/password_hint"
+            android:inputType="textPassword"
             android:paddingBottom="15dp"
+            android:textColor="@color/javeBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.462"
             app:layout_constraintStart_toStartOf="parent"

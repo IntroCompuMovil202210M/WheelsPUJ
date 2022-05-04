@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "177007975743",
-    "project_id": "wheelspuj-74cf1",
-    "storage_bucket": "wheelspuj-74cf1.appspot.com"
+    "project_number": "979033673106",
+    "project_id": "wheelspujmovil",
+    "storage_bucket": "wheelspujmovil.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:177007975743:android:139a98dd658bbd8a8a478a",
+        "mobilesdk_app_id": "1:979033673106:android:1aabf4e06330a3faf9c54b",
         "android_client_info": {
           "package_name": "com.example.wheelspuj"
         }
       },
       "oauth_client": [
         {
-          "client_id": "177007975743-567avucf2epl65kl98edqupt1bk3lupb.apps.googleusercontent.com",
+          "client_id": "979033673106-0dm7ig1pkl26d7jroclhfoofnsjhil4h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyChcl5MzIYEcgLitpTT5kpQgKYz0Oi59SM"
+          "current_key": "AIzaSyAhIa8h_puZSep08RwB-7Zw5p84zA2YDhE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "177007975743-567avucf2epl65kl98edqupt1bk3lupb.apps.googleusercontent.com",
+              "client_id": "979033673106-0dm7ig1pkl26d7jroclhfoofnsjhil4h.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
