@@ -5,15 +5,15 @@ import java.io.Serializable;
 public class Car implements Serializable {
 
     private String id;
-    private String id_driver;
+    private String idDriver;
     private int limit;
 
     public Car() {
     }
 
-    public Car(String id, String id_driver, int limit) {
+    public Car(String id, String idDriver, int limit) {
         this.id = id;
-        this.id_driver = id_driver;
+        this.idDriver = idDriver;
         this.limit = limit;
     }
 
@@ -25,12 +25,12 @@ public class Car implements Serializable {
         this.id = id;
     }
 
-    public String getId_driver() {
-        return id_driver;
+    public String getIdDriver() {
+        return idDriver;
     }
 
-    public void setId_driver(String id_driver) {
-        this.id_driver = id_driver;
+    public void setIdDriver(String idDriver) {
+        this.idDriver = idDriver;
     }
 
     public int getLimit() {
