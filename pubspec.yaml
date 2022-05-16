@@ -38,6 +38,11 @@ dependencies:
   firebase_core: ^1.17.0
   firebase_core_desktop: ^1.0.0
   firebase_auth: ^3.3.18
+  # firebase_auth_desktop: ^1.0.0
+  cloud_firestore: ^3.1.15
+  firebase_storage: ^10.2.16
+  #Pick image
+  image_picker: 0.8.5+3
   #Android like Toast
   bot_toast: ^4.0.1
 
