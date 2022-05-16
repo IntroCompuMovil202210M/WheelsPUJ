@@ -72,7 +72,7 @@ void forgotPasswordScreen(BuildContext context) {
 
 void forgotPassword(BuildContext context) async {
   final auth = FirebaseAuth.instance;
-  await auth.sendPasswordResetEmail(email: username.text).catchError((e)=>print(e));
+  await auth.sendPasswordResetEmail(email: username.text).catchError((e)=>showToast(e));
   showToast(
       "An email has just been sent to you, click the link provided to reset password :D");
 }
