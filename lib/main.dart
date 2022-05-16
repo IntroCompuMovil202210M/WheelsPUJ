@@ -6,20 +6,25 @@ import 'package:firebase_storage/firebase_storage.dart'; // for Firebase Storage
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // for Firebase
 import 'package:firebase_auth/firebase_auth.dart'; // for FirebaseAuth
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:image_picker/image_picker.dart'; // for ImagePicker
 import 'package:wheelspuj/firebase_options.dart'; // Firebase Options
+import 'package:wheelspuj/login/forgot_password.dart';
 import 'package:wheelspuj/login/login.dart'; // Login page
 import 'package:bot_toast/bot_toast.dart'; // for Toast
 import 'package:wheelspuj/login/register.dart'; // Register Screens
+import 'package:wheelspuj/uses_map/menu/main.dart';
 
 TextEditingController name = TextEditingController();
 TextEditingController surname = TextEditingController();
 TextEditingController username = TextEditingController();
 TextEditingController password = TextEditingController();
 TextEditingController confirmPassword = TextEditingController();
+TextEditingController license = TextEditingController();
 ImagePicker? picker;
 XFile? image;
 XFile? carImage;
+MapController mpc = MapController();
 
 void goToMap(BuildContext context) {
   Navigator.pushNamed(context, '/map');
@@ -61,8 +66,15 @@ void logInFunction(BuildContext context) async {
   }
 }
 
-void forgotPasswordFunction(BuildContext context) {
-  print("Forgot password");
+void forgotPasswordScreen(BuildContext context) {
+  Navigator.pushNamed(context, "/register/forgot");
+}
+
+void forgotPassword(BuildContext context) async {
+  final auth = FirebaseAuth.instance;
+  await auth.sendPasswordResetEmail(email: username.text);
+  showToast(
+      "An email has just been sent to you, click the link provided to reset password :D");
 }
 
 Future<bool> registerFunction() async {
@@ -109,16 +121,22 @@ class App extends StatelessWidget {
               logInFunction: logInFunction,
               username: username,
               password: password,
-              forgotPasswordFunction: forgotPasswordFunction,
+              forgotPasswordFunction: forgotPasswordScreen,
               registerScreen: registerScreen),
           '/register': (context) => Register(
               registerFunctionPassenger: registerPassenger,
               registerFunctionDriver: registerDriver),
-          '/register/driver': (context) =>
-              RegisterDriver(register: registerFunctionDriver, confirmPasswordController: confirmPassword,nameController: name,
+          '/register/driver': (context) => RegisterDriver(
+                register: registerFunctionDriver,
+                confirmPasswordController: confirmPassword,
+                nameController: name,
                 surnameController: surname,
-                usernameController: username,passwordController: password,
-                selectImage: selectImage,selectCarImage: selectCarImage,),
+                usernameController: username,
+                passwordController: password,
+                licenseController: license,
+                selectImage: selectImage,
+                selectCarImage: selectCarImage,
+              ),
           '/register/passenger': (context) => RegisterPassenger(
                 register: registerFunctionPassenger,
                 nameController: name,
@@ -128,8 +146,13 @@ class App extends StatelessWidget {
                 passwordController: password,
                 selectImage: selectImage,
               ),
+          '/register/forgot': (context) => ForgotPassword(
+                forgotPassword: forgotPassword,
+                usernameController: username,
+              ),
+          '/map': (context) => Menu(mpc: mpc)
         },
-        initialRoute: '/');
+        initialRoute: (FirebaseAuth.instance.currentUser==null)?'/':'map');
   }
 
   void registerScreen(BuildContext context) {
@@ -160,7 +183,8 @@ class App extends StatelessWidget {
       if (image != null) {
         if (carImage != null) {
           registerFunction();
-          saveAdditionalData("driver", username.text, name.text, surname.text);
+          saveAdditionalData("driver", username.text, name.text, surname.text,
+              license: license.text);
           if (FirebaseAuth.instance.currentUser != null) {
             showToast("Ok",
                 background: const Color.fromARGB(255, 0, 240, 8),
@@ -197,7 +221,8 @@ class App extends StatelessWidget {
   }
 
   void saveAdditionalData(
-      String collection, String username, String name, String surname) async {
+      String collection, String username, String name, String surname,
+      {String? license}) async {
     showToast("Saving additional data...");
     String? url;
     if (image != null) {
@@ -227,6 +252,7 @@ class App extends StatelessWidget {
             "mail": username,
             "name": name,
             "surname": surname,
+            "licensePlate": license!,
             "image": url,
             "carUrl": carUrl,
             "available": true

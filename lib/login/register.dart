@@ -85,6 +85,7 @@ class RegisterDriver extends StatelessWidget {
   final TextEditingController usernameController;
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
+  final TextEditingController licenseController;
   const RegisterDriver(
       {Key? key,
       required this.register,
@@ -94,7 +95,7 @@ class RegisterDriver extends StatelessWidget {
       required this.surnameController,
       required this.usernameController,
       required this.passwordController,
-      required this.confirmPasswordController})
+      required this.confirmPasswordController, required this.licenseController})
       : super(key: key);
 
   @override
@@ -169,14 +170,20 @@ class RegisterDriver extends StatelessWidget {
                           Expanded(
                             child: InputField(
                                 textController: passwordController,
-                                icon: const Icon(Icons.password),
+                                icon: const Icon(Icons.password),hide:true,
                                 text: "Password..."),
                           ),
                           Expanded(
                             child: InputField(
                                 textController: confirmPasswordController,
-                                icon: const Icon(Icons.password),
+                                icon: const Icon(Icons.password),hide:true,
                                 text: "Confirm password..."),
+                                
+                          ),Expanded(
+                            child: InputField(
+                                textController: licenseController,
+                                icon: const Icon(Icons.car_rental),
+                                text: "License plate..."),
                           ),
                           Row(
                             children: [
@@ -312,13 +319,13 @@ class RegisterPassenger extends StatelessWidget {
                           Expanded(
                             child: InputField(
                                 textController: passwordController,
-                                icon: const Icon(Icons.password),
+                                icon: const Icon(Icons.password),hide:true,
                                 text: "Password..."),
                           ),
                           Expanded(
                             child: InputField(
                                 textController: confirmPasswordController,
-                                icon: const Icon(Icons.password),
+                                icon: const Icon(Icons.password),hide:true,
                                 text: "Confirm password..."),
                           ),
                           Expanded(

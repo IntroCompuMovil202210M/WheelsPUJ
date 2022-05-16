@@ -1,6 +1,14 @@
-/* import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:wheelspuj/uses_map/map.dart';
+
+logOut(BuildContext context) async {
+  await FirebaseAuth.instance.signOut();
+  Navigator.pushNamed(context, "/");
+}
 
 class Menu extends StatelessWidget {
   const Menu({Key? key, required this.mpc}) : super(key: key);
@@ -12,14 +20,11 @@ class Menu extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: const Map(),
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.blueAccent,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(label: "Hola", icon: Icon(Icons.abc)),
-              BottomNavigationBarItem(label: "Hola2", icon: Icon(Icons.ac_unit))
-            ],
-          ),
+          persistentFooterButtons: [
+            FloatingActionButton(
+                onPressed: () => logOut(context),
+                child: const Icon(Icons.output_rounded)),
+          ],
         ));
   }
 }
- */

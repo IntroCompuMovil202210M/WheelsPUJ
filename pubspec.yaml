@@ -33,7 +33,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   #Flutter map  
-  # flutter_osm_plugin: ^0.34.0+1
+  flutter_osm_plugin: ^0.34.0+1
   # Firebase
   firebase_core: ^1.17.0
   firebase_core_desktop: ^1.0.0
