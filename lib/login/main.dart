@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:wheelspuj/login/login.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   final void Function(BuildContext context) logInButton;
   final void Function(BuildContext context) forgotPassword;
   final void Function(BuildContext context) register;
@@ -14,8 +13,14 @@ class Login extends StatelessWidget {
     required this.username,
     required this.password,
     required this.forgotPassword,
-    required this.register,
+    required this.register
   }) : super(key: key);
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,40 +31,39 @@ class Login extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
+          resizeToAvoidBottomInset: false,
             backgroundColor: Colors.white,
             body: Container(
               alignment: Alignment.center,
               child: Container(
                 decoration: const BoxDecoration(
-                  gradient: SweepGradient(colors: [
-                    Color.fromARGB(255, 113, 66, 255),
-                    Color.fromARGB(255, 130, 103, 255),
-                    Color.fromARGB(255, 131, 255, 245),
-                    Color.fromARGB(255, 113, 66, 209),
-                    Color.fromARGB(255, 29, 179, 238),
-                    Color.fromARGB(255, 255, 147, 183),
-                    Color.fromARGB(255, 40, 183, 250),
-                    Color.fromARGB(255, 132, 0, 255),
-                    Color.fromARGB(255, 132, 241, 255),
-                    Color.fromARGB(255, 113, 66, 255),
-                    Color.fromARGB(255, 130, 103, 255),
-                    Color.fromARGB(255, 131, 255, 245),
-                    Color.fromARGB(255, 113, 66, 209),
-                    Color.fromARGB(255, 29, 179, 238),
-                    Color.fromARGB(255, 255, 147, 183),
-                    Color.fromARGB(255, 40, 183, 250),
-                    Color.fromARGB(255, 132, 0, 255),
-                    Color.fromARGB(255, 132, 241, 255)
-                  ], tileMode: TileMode.decal),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
+                    gradient: SweepGradient(colors: [
+                  Color.fromARGB(255, 113, 66, 255),
+                  Color.fromARGB(255, 130, 103, 255),
+                  Color.fromARGB(255, 131, 255, 245),
+                  Color.fromARGB(255, 113, 66, 209),
+                  Color.fromARGB(255, 29, 179, 238),
+                  Color.fromARGB(255, 255, 147, 183),
+                  Color.fromARGB(255, 40, 183, 250),
+                  Color.fromARGB(255, 132, 0, 255),
+                  Color.fromARGB(255, 132, 241, 255),
+                  Color.fromARGB(255, 113, 66, 255),
+                  Color.fromARGB(255, 130, 103, 255),
+                  Color.fromARGB(255, 131, 255, 245),
+                  Color.fromARGB(255, 113, 66, 209),
+                  Color.fromARGB(255, 29, 179, 238),
+                  Color.fromARGB(255, 255, 147, 183),
+                  Color.fromARGB(255, 40, 183, 250),
+                  Color.fromARGB(255, 132, 0, 255),
+                  Color.fromARGB(255, 132, 241, 255)
+                ], tileMode: TileMode.decal)),
                 child: SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.all(50.0),
                     child: Container(
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 255, 255, 255),
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -82,7 +86,7 @@ class Login extends StatelessWidget {
                             ),
                             Expanded(
                               child: InputField(
-                                  textController: username,
+                                  textController: widget.username,
                                   icon: const Icon(
                                     Icons.verified_user_rounded,
                                     color: Color.fromARGB(255, 0, 168, 6),
@@ -96,7 +100,7 @@ class Login extends StatelessWidget {
                             ),
                             Expanded(
                               child: InputField(
-                                textController: password,
+                                textController: widget.password,
                                 icon: const Icon(
                                   Icons.security_rounded,
                                   color: Colors.red,
@@ -128,7 +132,7 @@ class Login extends StatelessWidget {
                                             MaterialStateProperty.all(
                                                 Colors.white)),
                                     onPressed: () {
-                                      register(context);
+                                      widget.register(context);
                                     },
                                     child: const Text("Register"),
                                   )),
@@ -139,7 +143,7 @@ class Login extends StatelessWidget {
                                               MaterialStateProperty.all(
                                                   Colors.white)),
                                       onPressed: () {
-                                        forgotPassword(context);
+                                        widget.forgotPassword(context);
                                       },
                                       child: const Text('Forgot password',
                                           style: TextStyle(
@@ -162,7 +166,7 @@ class Login extends StatelessWidget {
                                                 Colors.blue)),
                                     child: const Text('Log In'),
                                     onPressed: () {
-                                      logInButton(context);
+                                      widget.logInButton(context);
                                     }),
                               ),
                             ),

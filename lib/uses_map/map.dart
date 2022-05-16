@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class Map extends StatefulWidget {
@@ -69,3 +69,4 @@ class _MapState extends State<Map> {
     );
   }
 }
+ */
