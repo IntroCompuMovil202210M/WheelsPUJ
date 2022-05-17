@@ -263,6 +263,14 @@ class App extends StatelessWidget {
               .child('${username}_car.jpg');
           await ref.putFile(File(carImage!.path));
           String carUrl = await ref.getDownloadURL();
+          print('Awaiting pos:');
+          double? lat;
+          double? lng;
+          pos.then((value) {
+            print('Got pos: $value');
+            lat = value["latitude"];
+            lng = value["longitude"];
+          });
           await pos;
           await FirebaseFirestore.instance.collection(collection).add({
             "mail": username,
@@ -272,7 +280,10 @@ class App extends StatelessWidget {
             "image": url,
             "carUrl": carUrl,
             "available": true,
-            "position": pos
+            "position": {
+              "latitude": lat,
+              "longitude": lng
+            }
           });
         }
       }
