@@ -163,7 +163,7 @@ class App extends StatelessWidget {
                 forgotPassword: forgotPassword,
                 usernameController: username,
               ),
-          '/map': (context) => Menu()
+          '/map': (context) => const Menu()
         },
         initialRoute:
             (FirebaseAuth.instance.currentUser == null) ? '/' : 'map');
@@ -263,11 +263,9 @@ class App extends StatelessWidget {
               .child('${username}_car.jpg');
           await ref.putFile(File(carImage!.path));
           String carUrl = await ref.getDownloadURL();
-          print('Awaiting pos:');
           double? lat;
           double? lng;
           pos.then((value) {
-            print('Got pos: $value');
             lat = value["latitude"];
             lng = value["longitude"];
           });
