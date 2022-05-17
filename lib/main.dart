@@ -1,19 +1,20 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:io';
+import 'dart:core';
+import 'dart:io'; // for Files
 import 'package:cloud_firestore/cloud_firestore.dart'; // for Cloud Firestore
 import 'package:firebase_storage/firebase_storage.dart'; // for Firebase Storage
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; // Flutter base widgets
 import 'package:firebase_core/firebase_core.dart'; // for Firebase
 import 'package:firebase_auth/firebase_auth.dart'; // for FirebaseAuth
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:image_picker/image_picker.dart'; // for ImagePicker
+import 'package:location/location.dart';
 import 'package:wheelspuj/firebase_options.dart'; // Firebase Options
-import 'package:wheelspuj/login/forgot_password.dart';
+import 'package:wheelspuj/login/forgot_password.dart'; //Forgot password
 import 'package:wheelspuj/login/login.dart'; // Login page
 import 'package:bot_toast/bot_toast.dart'; // for Toast
 import 'package:wheelspuj/login/register.dart'; // Register Screens
-import 'package:wheelspuj/uses_map/menu/main.dart';
+import 'package:wheelspuj/uses_map/menu/main.dart'; // Map
 
 TextEditingController name = TextEditingController();
 TextEditingController surname = TextEditingController();
@@ -21,10 +22,19 @@ TextEditingController username = TextEditingController();
 TextEditingController password = TextEditingController();
 TextEditingController confirmPassword = TextEditingController();
 TextEditingController license = TextEditingController();
+Location? location;
 ImagePicker? picker;
 XFile? image;
 XFile? carImage;
-MapController mpc = MapController();
+
+Future<Map<String, double>> getLocation() async {
+  final LocationData locationdata = await location!.getLocation();
+  Map<String, double> map = <String, double>{
+    'latitude': locationdata.latitude!,
+    'longitude': locationdata.longitude!,
+  };
+  return map;
+}
 
 void goToMap(BuildContext context) {
   Navigator.pushNamed(context, '/map');
@@ -72,7 +82,9 @@ void forgotPasswordScreen(BuildContext context) {
 
 void forgotPassword(BuildContext context) async {
   final auth = FirebaseAuth.instance;
-  await auth.sendPasswordResetEmail(email: username.text).catchError((e)=>showToast(e));
+  await auth
+      .sendPasswordResetEmail(email: username.text)
+      .catchError((e) => showToast(e));
   showToast(
       "An email has just been sent to you, click the link provided to reset password :D");
 }
@@ -100,6 +112,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   picker = ImagePicker();
+  location = Location();
   runApp(
     const App(),
   );
@@ -150,9 +163,10 @@ class App extends StatelessWidget {
                 forgotPassword: forgotPassword,
                 usernameController: username,
               ),
-          '/map': (context) => Menu(mpc: mpc)
+          '/map': (context) => Menu()
         },
-        initialRoute: (FirebaseAuth.instance.currentUser==null)?'/':'map');
+        initialRoute:
+            (FirebaseAuth.instance.currentUser == null) ? '/' : 'map');
   }
 
   void registerScreen(BuildContext context) {
@@ -242,12 +256,14 @@ class App extends StatelessWidget {
         });
       } else {
         if (carImage != null) {
+          final pos = getLocation();
           final ref = FirebaseStorage.instance
               .ref()
               .child(collection)
               .child('${username}_car.jpg');
           await ref.putFile(File(carImage!.path));
           String carUrl = await ref.getDownloadURL();
+          await pos;
           await FirebaseFirestore.instance.collection(collection).add({
             "mail": username,
             "name": name,
@@ -255,7 +271,8 @@ class App extends StatelessWidget {
             "licensePlate": license!,
             "image": url,
             "carUrl": carUrl,
-            "available": true
+            "available": true,
+            "position": pos
           });
         }
       }

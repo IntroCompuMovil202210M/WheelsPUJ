@@ -2,8 +2,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-import 'package:wheelspuj/uses_map/map.dart';
 
 logOut(BuildContext context) async {
   await FirebaseAuth.instance.signOut();
@@ -11,15 +9,14 @@ logOut(BuildContext context) async {
 }
 
 class Menu extends StatelessWidget {
-  const Menu({Key? key, required this.mpc}) : super(key: key);
-  final MapController mpc;
+  const Menu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: const Map(),
+          body: Container(),
           persistentFooterButtons: [
             FloatingActionButton(
                 onPressed: () => logOut(context),
