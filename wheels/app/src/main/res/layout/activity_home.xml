@@ -45,7 +45,13 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/chatButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_baseline_chat_24" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/singout"
         android:layout_width="wrap_content"

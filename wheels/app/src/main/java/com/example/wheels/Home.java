@@ -74,7 +74,7 @@ public class Home extends FragmentActivity implements OnMapReadyCallback, Locati
     private LatLng currentPosition;
     private Position position;
     private EditText search, start;
-    private FloatingActionButton singOut, setPosition, searchTrip;
+    private FloatingActionButton singOut, setPosition, searchTrip, chatBut;
     private Geocoder mGeocoder;
 
     @Override
@@ -93,13 +93,15 @@ public class Home extends FragmentActivity implements OnMapReadyCallback, Locati
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         singOut = findViewById(R.id.singout);
+        chatBut=findViewById(R.id.chatButton);
         setPosition = findViewById(R.id.location);
         searchTrip = findViewById(R.id.trips);
         start = findViewById(R.id.Startpoint);
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+            if (location!=null)
+                currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
             updatePassenger("position", new Position(location.getLatitude(), location.getLongitude()));
             getLocationUpdates();
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -110,11 +112,15 @@ public class Home extends FragmentActivity implements OnMapReadyCallback, Locati
             Toast.makeText(this, "No se pudo obtener la ultima posicion", Toast.LENGTH_SHORT).show();
         });
         singOut.setOnClickListener(view -> {
-            auth.signOut();
-            Intent intent = new Intent(Home.this, MainActivity.class);
+                    auth.signOut();
+                    Intent intent = new Intent(Home.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
-
+        chatBut.setOnClickListener(view -> {
+            Intent intent = new Intent(Home.this, ViewUsersActivity.class);
+            startActivity(intent);
+        });
         setPosition.setOnClickListener(view -> {
             Geocoder geocoder;
             List<Address> addresses;

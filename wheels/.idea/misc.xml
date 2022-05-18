@@ -21,6 +21,10 @@
         <entry key="..\:/Users/juans/Desktop/wheels/app/src/main/res/layout/fragment_slideshow.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/juans/Desktop/wheels/app/src/main/res/layout/nav_header_home_passenger.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/juans/Desktop/wheels/app/src/main/res/layout/trip_driver.xml" value="0.12708333333333333" />
+        <entry key="app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_view_users.xml" value="0.1" />
       </map>
     </option>
   </component>
