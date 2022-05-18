@@ -100,14 +100,15 @@ public class Home extends FragmentActivity implements OnMapReadyCallback, Locati
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            if (location!=null)
+            if (location!=null) {
                 currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-            updatePassenger("position", new Position(location.getLatitude(), location.getLongitude()));
-            getLocationUpdates();
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-            carListener();
+                updatePassenger("position", new Position(location.getLatitude(), location.getLongitude()));
+                getLocationUpdates();
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(this);
+                carListener();
+            }
         }).addOnFailureListener(e -> {
             Toast.makeText(this, "No se pudo obtener la ultima posicion", Toast.LENGTH_SHORT).show();
         });

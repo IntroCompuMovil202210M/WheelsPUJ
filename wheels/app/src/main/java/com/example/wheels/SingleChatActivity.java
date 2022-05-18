@@ -2,58 +2,51 @@ package com.example.wheels;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
 import com.example.wheels.Adapters.ChatContactsAdapter;
+import com.example.wheels.Adapters.ChatMessagesAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import Models.Message;
 import Models.User;
 
-public class ViewUsersActivity extends AppCompatActivity {
+public class SingleChatActivity extends AppCompatActivity {
 
+    ChatMessagesAdapter adapter;
     ListView listU;
-    ChatContactsAdapter adapter;
-    static final String TAG = "ViewUsers";
-    static final String USER_CN = "UserInfo";
     //Elements to paint
-    ArrayList<User> users;
+    ArrayList<Message> messages;
     //Firebase instance
     FirebaseFirestore firebaseFirestore;
-
-    //https://www.youtube.com/watch?v=D_q9NJAm5OI
-    // https://www.youtube.com/watch?v=DFnxY_PEnYY
-    //https://www.youtube.com/watch?v=a9I7Ppzh1_Y
-
+    static final String TAG = "ViewUsers";
+    static final String USER_CN = "UserInfo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_users);
+        setContentView(R.layout.activity_single_chat);
+        listU=findViewById(R.id.ListViewMessagesSingle);
         firebaseFirestore=FirebaseFirestore.getInstance();
-        listU=findViewById(R.id.ListUsers);
-        //Filling elements
-        users=new ArrayList<>();
-        //start
-        readStartUsers();
-        //subscribe
+        messages=new ArrayList<>();
+        readStartMessages();
         subscribe();
-    }
 
-    private void addUser(User u) {
-        User user=u;
-        users.add(user);
-        adapter=new ChatContactsAdapter(this, users);
+    }
+    private void addMessage(Message u) {
+        Message m=u;
+        messages.add(m);
+        adapter=new ChatMessagesAdapter(this, messages);
         listU.setAdapter(adapter);
     }
 
     private void subscribe(){
     }
 
-    private void readStartUsers() {
+    private void readStartMessages() {
     }
 
     @Override
