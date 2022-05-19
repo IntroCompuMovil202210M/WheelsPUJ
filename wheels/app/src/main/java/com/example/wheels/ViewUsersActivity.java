@@ -1,14 +1,23 @@
 package com.example.wheels;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.wheels.Adapters.ChatContactsAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -51,9 +60,51 @@ public class ViewUsersActivity extends AppCompatActivity {
     }
 
     private void subscribe(){
+        //Only Drivers
+        firebaseFirestore.collection("driver").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error==null) {
+                    for (DocumentSnapshot ds:value.getDocuments()){
+                        String name=(String)(ds.get("name"));
+                        String surname=(String)(ds.get("surname"));
+                        String email=(String)(ds.get("mail"));
+                        String image=(String)(ds.get("image"));
+                        User u=new User();
+                        u.setMail(email);
+                        u.setName(name);
+                        u.setSurname(surname);
+                        u.setImage(image);
+                        if (!users.contains(u))
+                        addUser(u);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Error reading users", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void readStartUsers() {
+        //Only Drivers
+        firebaseFirestore.collection("driver").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    for (DocumentSnapshot ds:task.getResult().getDocuments()){
+                        String name=(String)(ds.get("name"));
+                        String surname=(String)(ds.get("surname"));
+                        String email=(String)(ds.get("mail"));
+                        String image=(String)(ds.get("image"));
+                        User u=new User();
+                        u.setMail(email);
+                        u.setImage(image);
+                        u.setName(name);
+                        u.setSurname(surname);
+                        if (!users.contains(u))
+                        addUser(u);
+                    }
+            }
+        });
     }
 
     @Override

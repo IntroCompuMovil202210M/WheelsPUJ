@@ -24,9 +24,10 @@
         <entry key="app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_single_chat.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_single_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_view_users.xml" value="0.1" />
         <entry key="app/src/main/res/layout/message.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/user.xml" value="0.240625" />
       </map>
     </option>
   </component>

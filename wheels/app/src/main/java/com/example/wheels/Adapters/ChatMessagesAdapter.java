@@ -41,14 +41,14 @@ public class ChatMessagesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View v=View.inflate(mContext, R.layout.user, null);
+        View v=View.inflate(mContext, R.layout.message, null);
         Message u= mListUsers.get(i);
         TextView textview_contact_Name= (TextView) v.findViewById(R.id.MessageName);
         TextView textview_contact_Content= (TextView) v.findViewById(R.id.MessageContent);
         textview_contact_Name.setText(u.getName());
         textview_contact_Content.setText(u.getContent());
         ImageView imageView=v.findViewById(R.id.MessageFace);
-        Picasso.with(view.getContext()).load(u.getImageLocation()).error(R.drawable.ic_launcher_foreground).into(imageView);
+        Picasso.with(mContext).load(u.getImageLocation()).error(R.drawable.ic_launcher_foreground).into(imageView);
         return v;
     }
 }

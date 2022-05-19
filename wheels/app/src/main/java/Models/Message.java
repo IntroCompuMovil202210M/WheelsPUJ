@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.Objects;
+
 public class Message {
     private String name;
     private String imageLocation;
@@ -33,5 +35,18 @@ public class Message {
         this.name=name;
         this.imageLocation=imageLocation;
         this.content=content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return imageLocation.equals(message.imageLocation) && content.equals(message.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imageLocation, content);
     }
 }

@@ -7,6 +7,7 @@
     tools:context=".SingleChatActivity"
     android:orientation="vertical">
 <LinearLayout
+    android:padding="5dp"
     android:layout_weight="1"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -16,14 +17,17 @@
         android:id="@+id/ContactImageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_baseline_chat_24"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_baseline_image_24"
         android:scaleType="fitCenter"/>
     <TextView
+        android:layout_gravity="center|right"
+        android:padding="10dp"
         android:id="@+id/ContactoNombreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Nombre Aqui" />
+        android:text="User" />
 </LinearLayout>
 <ListView
     android:id="@+id/ListViewMessagesSingle"
@@ -31,4 +35,25 @@
     android:layout_height="0dp"
     android:layout_gravity="center"
     android:layout_weight="9" />
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <EditText
+            android:layout_weight="2"
+            android:id="@+id/SelfWriteMessage"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:hint="Message..."/>
+        <Button
+            android:id="@+id/SelfSendBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="Send" />
+    </LinearLayout>
 </LinearLayout>
