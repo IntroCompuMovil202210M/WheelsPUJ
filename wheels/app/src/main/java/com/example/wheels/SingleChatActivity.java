@@ -50,7 +50,6 @@ public class SingleChatActivity extends AppCompatActivity {
     //Firebase instance
     FirebaseFirestore firebaseFirestore;
     static final String TAG = "ViewUsers";
-    static final String USER_CN = "UserInfo";
     String thisUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

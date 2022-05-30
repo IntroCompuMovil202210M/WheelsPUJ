@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.wheels.Adapters.ChatContactsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,10 +34,7 @@ public class ViewUsersActivity extends AppCompatActivity {
     ArrayList<User> users;
     //Firebase instance
     FirebaseFirestore firebaseFirestore;
-
-    //https://www.youtube.com/watch?v=D_q9NJAm5OI
-    // https://www.youtube.com/watch?v=DFnxY_PEnYY
-    //https://www.youtube.com/watch?v=a9I7Ppzh1_Y
+    String mail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +44,57 @@ public class ViewUsersActivity extends AppCompatActivity {
         listU=findViewById(R.id.ListUsers);
         //Filling elements
         users=new ArrayList<>();
-        //start
-        readStartUsers();
-        //subscribe
-        subscribe();
+        if (!getIntent().getBooleanExtra("driver", false)) {
+            //start
+            readStartUsers();
+            //subscribe
+            subscribe();
+        }
+        else{
+            searchMessages();
+        }
+    }
+
+    private void searchMessages() {
+        firebaseFirestore.collection("messages").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error==null) {
+                    for (DocumentSnapshot ds:value.getDocuments()){
+                        String email=(String)(ds.get("remitenteMail"));
+                        String email2=(String)(ds.get("receptorMail"));
+                        if((email2.equals(mail))) {
+                            firebaseFirestore.collection("passenger").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    if (error==null) {
+                                        for (DocumentSnapshot ds:value.getDocuments()){
+                                            String passenger_email=(String)(ds.get("mail"));
+                                            if (email.equals(passenger_email)) {
+                                                String name = (String) (ds.get("name"));
+                                                String surname = (String) (ds.get("surname"));
+                                                String image = (String) (ds.get("image"));
+                                                User u = new User();
+                                                u.setMail(email);
+                                                u.setName(name);
+                                                u.setSurname(surname);
+                                                u.setImage(image);
+                                                if (!users.contains(u))
+                                                    addUser(u);
+                                            }
+                                        }
+                                    }else{
+                                        Toast.makeText(getApplicationContext(), "Error reading users", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+                        }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Error reading users", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void addUser(User u) {

@@ -77,9 +77,8 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
     private EditText search;
     private Driver d;
     List<Route> routes;
-
     private boolean visible = true;
-    private FloatingActionButton singOut, visibility, mytrips;
+    private FloatingActionButton singOut, visibility, mytrips, chat;
     private Polyline currentPolyline;
     private Geocoder mGeocoder;
 
@@ -98,6 +97,7 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         visibility = findViewById(R.id.visibility);
+        chat=findViewById(R.id.chatButton);
         db = FirebaseFirestore.getInstance();
         singOut = findViewById(R.id.singout);
         search = findViewById(R.id.search);
@@ -105,13 +105,17 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
         manager = (LocationManager) getSystemService(LOCATION_SERVICE);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            saveLocation(location);
-            currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
-            getLocationUpdates();
-            drawRouteListener();
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
+            try {
+                saveLocation(location);
+                currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                getLocationUpdates();
+                drawRouteListener();
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(this);
+            }catch(Exception e){
+
+            }
         }).addOnFailureListener(e -> {
             Toast.makeText(this, "No se pudo obtener la ultima posicion", Toast.LENGTH_SHORT).show();
         });
@@ -132,6 +136,11 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
                 visibility.setImageResource(R.drawable.ic_baseline_visibility_24);
 
             }
+        });
+        chat.setOnClickListener(view -> {
+            Intent intent = new Intent(MapDriver.this, ViewUsersActivity.class);
+            intent.putExtra("driver", true);
+            startActivity(intent);
         });
 
         search.setOnEditorActionListener((v, actionId, event) -> {
@@ -269,8 +278,11 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
 
     private void saveLocation(Location location) {
         CollectionReference dbUsers = db.collection("driver");
-        dbUsers.document(currentUser.getEmail()).update("position", new Position(location.getLatitude(), location.getLongitude())).isSuccessful();
+        try {
+            dbUsers.document(currentUser.getEmail()).update("position", new Position(location.getLatitude(), location.getLongitude())).isSuccessful();
+        }catch(Exception e){
 
+        }
     }
 
     private void updateState(boolean b) {
