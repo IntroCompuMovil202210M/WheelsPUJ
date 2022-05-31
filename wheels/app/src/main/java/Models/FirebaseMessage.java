@@ -41,12 +41,12 @@ public class FirebaseMessage {
     private String remitenteMail;
     private String remitenteNombre;
 
-    public FirebaseMessage(String contenido, String remitenteImagen, String remitenteMail, String remitenteNombre, String receptorMail){
-        this.contenido=contenido;
-        this.remitenteImagen=remitenteImagen;
-        this.remitenteMail=remitenteMail;
-        this.receptorMail=receptorMail;
-        this.remitenteNombre=remitenteNombre;
+    public FirebaseMessage(String contenido, String remitenteImagen, String remitenteMail, String remitenteNombre, String receptorMail) {
+        this.contenido = contenido;
+        this.remitenteImagen = remitenteImagen;
+        this.remitenteMail = remitenteMail;
+        this.receptorMail = receptorMail;
+        this.remitenteNombre = remitenteNombre;
     }
 
     public String getContenido() {

@@ -1,6 +1,11 @@
 package Models;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
+
 public class Route {
+    private List<Position> points;
     private Position endPoint;
     private boolean available;
     private String name;
@@ -29,6 +34,14 @@ public class Route {
         this.available = available;
     }
 
+    public List<Position> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<Position> points) {
+        this.points = points;
+    }
+
     public Route() {
     }
 
@@ -37,6 +50,7 @@ public class Route {
         this.available = false;
         this.name = name;
 
+
     }
 
     @Override
@@ -44,6 +58,7 @@ public class Route {
         return "Route{" +
                 "endPoint=" + endPoint +
                 ", available=" + available +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

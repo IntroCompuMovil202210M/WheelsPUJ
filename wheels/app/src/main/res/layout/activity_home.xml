@@ -18,40 +18,17 @@
         android:layout_margin="20dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/Startpoint"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_gravity="top|center"
-                android:layout_weight="2"
-                android:background="@drawable/rounded"
-                android:hint="Punto de encuentro"
-                android:imeOptions="actionSend"
-                android:inputType="text"
-                android:padding="10dp" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/ic_baseline_my_location_24" />
-        </LinearLayout>
 
     </LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/chatButton"
+        android:id="@+id/chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="top|end"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_baseline_chat_24" />
+        android:src="@drawable/ic_baseline_message_24" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/singout"
         android:layout_width="wrap_content"
@@ -59,6 +36,14 @@
         android:layout_gravity="bottom|start"
         android:layout_margin="10dp"
         android:src="@drawable/singout" />
+
+    <Button
+        android:id="@+id/cancelTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="10dp"
+        android:text="Cancelar viaje" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/trips"

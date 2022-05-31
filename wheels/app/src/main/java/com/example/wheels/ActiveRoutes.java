@@ -2,10 +2,13 @@ package com.example.wheels;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
 
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.wheels.Adapters.RoutesAdapter;
 import com.example.wheels.Adapters.TripAdapter;
@@ -18,12 +21,15 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
+import android.widget.Toast;
+
 
 import Models.Driver;
 import Models.Route;
 import Models.Trip;
 
 public class ActiveRoutes extends AppCompatActivity {
+    private boolean onPressed = false;
     private ListView listView;
     private List<Driver> d;
     private FirebaseFirestore db;
@@ -39,7 +45,22 @@ public class ActiveRoutes extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         getRoutes();
-
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+        });
+        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            onPressed=true;
+            dbTrips.document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Driver d = task.getResult().toObject(Driver.class);
+                    d.getRoutes().remove(i);
+                    if (!dbTrips.document(auth.getCurrentUser().getEmail()).update("routes", d.getRoutes()).isSuccessful()) {
+                        Toast.makeText(ActiveRoutes.this, "Hubo un error al eliminar la ruta", Toast.LENGTH_SHORT);
+                    }
+                }
+            });
+            onPressed=false;
+            return false;
+        });
 
     }
 

@@ -7,7 +7,16 @@ public class Trip {
     private boolean completed;
     private List<String> userMail;
     private String name;
-    private Position endPoint;
+    private  String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public boolean isCompleted() {
         return completed;
     }
@@ -34,23 +43,13 @@ public class Trip {
 
 
 
-    public Position getEndPoint() {
-        return endPoint;
-    }
-
-    public void setEndPoint(Position endPoint) {
-        this.endPoint = endPoint;
-    }
-
-
-
     public Trip() {
     }
 
-    public Trip(String name, Position endPoint) {
-        this.userMail = new ArrayList<>();
-        this.name=name;
-        this.completed = false;
-        this.endPoint = endPoint;
+    public Trip(String name, List<String> user,String date) {
+        this.userMail = user;
+        this.name = name;
+        this.completed = true;
+        this.date=date;
     }
 }

@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Random;
 
 public class User implements Serializable, Parcelable {
@@ -154,16 +153,5 @@ public class User implements Serializable, Parcelable {
         parcel.writeInt(id);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return name.equals(user.getName())&&surname.equals(user.getSurname())&&mail.equals(user.getMail());
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, surname, mail);
-    }
 }

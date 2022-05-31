@@ -7,27 +7,13 @@ public class Driver extends User {
 
     private List<Route> routes;
     private boolean available;
+    private boolean inTrip;
     private String licensePlate;
     private String carUrl;
 
     private Driver(){
         super();
 
-    }
-    @Override
-    public String toString() {
-        return "Driver{" +
-                "available=" + available +
-                ", licensePlate='" + licensePlate + '\'' +
-                ", carUrl='" + carUrl + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", mail='" + mail + '\'' +
-                ", password='" + password + '\'' +
-                ", image='" + image + '\'' +
-                ", id=" + id +
-                ", position=" + position +
-                '}';
     }
 
     public Driver(String name, String surname, String mail, String password, String image, String licensePlate, String carUrl) {
@@ -36,6 +22,15 @@ public class Driver extends User {
         this.licensePlate = licensePlate;
         this.routes=new ArrayList<>();
         this.available=true;
+        this.inTrip=false;
+    }
+
+    public boolean isInTrip() {
+        return inTrip;
+    }
+
+    public void setInTrip(boolean inTrip) {
+        this.inTrip = inTrip;
     }
 
     public List<Route> getRoutes() {
@@ -68,5 +63,15 @@ public class Driver extends User {
 
     public void setCarUrl(String carUrl) {
         this.carUrl = carUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "routes=" + routes +
+                ", available=" + available +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", carUrl='" + carUrl + '\'' +
+                '}';
     }
 }

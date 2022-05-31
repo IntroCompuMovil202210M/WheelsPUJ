@@ -7,7 +7,7 @@ public class Passenger extends User {
         super(name, surname, mail, password, image);
         this.inTrip = false;
     }
-
+private Passenger(){}
     public boolean isInTrip() {
         return inTrip;
     }
