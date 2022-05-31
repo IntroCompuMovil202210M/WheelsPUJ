@@ -43,6 +43,7 @@ public class ViewUsersActivity extends AppCompatActivity {
         firebaseFirestore=FirebaseFirestore.getInstance();
         listU=findViewById(R.id.ListUsers);
         //Filling elements
+        mail=FirebaseAuth.getInstance().getCurrentUser().getEmail();
         users=new ArrayList<>();
         if (!getIntent().getBooleanExtra("driver", false)) {
             //start
@@ -52,46 +53,83 @@ public class ViewUsersActivity extends AppCompatActivity {
         }
         else{
             searchMessages();
+            subscribeAsDriver();
         }
     }
 
-    private void searchMessages() {
+    private void subscribeAsDriver() {
         firebaseFirestore.collection("messages").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error==null) {
-                    for (DocumentSnapshot ds:value.getDocuments()){
-                        String email=(String)(ds.get("remitenteMail"));
-                        String email2=(String)(ds.get("receptorMail"));
-                        if((email2.equals(mail))) {
-                            firebaseFirestore.collection("passenger").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                if (error == null) {
+                    for (DocumentSnapshot ds : value.getDocuments()) {
+                        String email = (String) (ds.get("remitenteMail"));
+                        String email2 = (String) (ds.get("receptorMail"));
+                        Log.i("Aqui", "Email " + mail + " -> " + email2 + " " + email2.equals(mail));
+                        if (email2.equals(mail)) {
+                            firebaseFirestore.collection("passenger").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
-                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                    if (error==null) {
-                                        for (DocumentSnapshot ds:value.getDocuments()){
-                                            String passenger_email=(String)(ds.get("mail"));
-                                            if (email.equals(passenger_email)) {
-                                                String name = (String) (ds.get("name"));
-                                                String surname = (String) (ds.get("surname"));
-                                                String image = (String) (ds.get("image"));
-                                                User u = new User();
-                                                u.setMail(email);
-                                                u.setName(name);
-                                                u.setSurname(surname);
-                                                u.setImage(image);
-                                                if (!users.contains(u))
-                                                    addUser(u);
-                                            }
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    for (DocumentSnapshot ds : task.getResult().getDocuments()) {
+                                        String passenger_email = (String) (ds.get("mail"));
+                                        if (email.equals(passenger_email)) {
+                                            String name = (String) (ds.get("name"));
+                                            String surname = (String) (ds.get("surname"));
+                                            String image = (String) (ds.get("image"));
+                                            User u = new User();
+                                            u.setMail(passenger_email);
+                                            u.setName(name);
+                                            u.setSurname(surname);
+                                            u.setImage(image);
+                                            if (!users.contains(u))
+                                                addUser(u);
                                         }
-                                    }else{
-                                        Toast.makeText(getApplicationContext(), "Error reading users", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                         }
-                        }
-                }else{
+                    }
+                } else {
                     Toast.makeText(getApplicationContext(), "Error reading users", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void searchMessages() {
+        ArrayList<String> userEmails = new ArrayList<>();
+        firebaseFirestore.collection("messages").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (DocumentSnapshot ds : task.getResult().getDocuments()) {
+                    String email = (String) (ds.get("remitenteMail"));
+                    String email2 = (String) (ds.get("receptorMail"));
+                    Log.i("Aqui", "Email " + mail + " -> " + email2 + " " + email2.equals(mail));
+                    if (email2.equals(mail)) {
+                        if (!userEmails.contains(email))
+                            userEmails.add(email);
+                    }
+                }
+            }
+        });
+        firebaseFirestore.collection("passenger").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (DocumentSnapshot ds : task.getResult().getDocuments()) {
+                    String passenger_email = (String) (ds.get("mail"));
+                    Log.i("Aqui", "Aniado  -> " + passenger_email + " " + userEmails.contains(passenger_email));
+                    if (userEmails.contains(passenger_email)) {
+                        String name = (String) (ds.get("name"));
+                        String surname = (String) (ds.get("surname"));
+                        String image = (String) (ds.get("image"));
+                        User u = new User();
+                        u.setMail(passenger_email);
+                        u.setName(name);
+                        u.setSurname(surname);
+                        u.setImage(image);
+                        if (!users.contains(u))
+                            addUser(u);
+                    }
                 }
             }
         });
