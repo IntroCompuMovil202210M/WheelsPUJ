@@ -3,22 +3,36 @@ package com.example.wheels;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.wheels.databinding.ActivityMapDriverBinding;
@@ -31,6 +45,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -44,22 +59,28 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import Models.Driver;
+import Models.Passenger;
 import Models.Position;
 import Models.Route;
 import Models.Trip;
-
+import Models.TripRequest;
 public class MapDriver extends FragmentActivity implements OnMapReadyCallback, LocationListener, TaskLoadedCallback {
 
     private FusedLocationProviderClient fusedLocationClient;
@@ -70,12 +91,18 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
     private FirebaseFirestore db;
     private GoogleMap mMap;
     private ActivityMapDriverBinding binding;
-    private Marker mymarker, searchMarker;
     private LocationManager manager;
     private LatLng currentPosition;
     private Position position;
+    private TripRequest tripRequest;
+    private Passenger passenger;
     private EditText search;
     private Driver d;
+    private Route activeRoute;
+    private Button inTrip, finished;
+    private Marker mymarker, searchMarker, passengerMarker, pickUpMarker;
+    private NotificationManagerCompat notificationManager;
+    public static final String CHANNEL_ID = "Wheels PUJ";
     List<Route> routes;
     private boolean visible = true;
     private FloatingActionButton singOut, visibility, mytrips, chat;
@@ -97,7 +124,7 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         visibility = findViewById(R.id.visibility);
-        chat=findViewById(R.id.chatButton);
+        chat=findViewById(R.id.chat);
         db = FirebaseFirestore.getInstance();
         singOut = findViewById(R.id.singout);
         search = findViewById(R.id.search);
@@ -331,5 +358,144 @@ public class MapDriver extends FragmentActivity implements OnMapReadyCallback, L
         if (currentPolyline != null)
             currentPolyline.remove();
         currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
+    }
+    private void requestListener() {
+        CollectionReference requests = db.collection("tripRequest");
+        requests.document(auth.getCurrentUser().getEmail()).addSnapshotListener((value, error) -> {
+            tripRequest = value.toObject(TripRequest.class);
+            if (tripRequest != null ) {
+                if (tripRequest.getAccepted() == 0) {
+                    db.collection("passenger").document(tripRequest.getMailPassenger()).get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            passenger = task.getResult().toObject(Passenger.class);
+                            onButtonShowPopupWindowClick(findViewById(android.R.id.content).getRootView());
+                        }
+                    });
+                } else if (tripRequest.getAccepted() == 1) {
+                    db.collection("passenger").document(tripRequest.getMailPassenger()).get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            passenger = task.getResult().toObject(Passenger.class);
+                            if (passengerMarker != null)
+                                passengerMarker.remove();
+                            passengerMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(passenger.getPosition().getLatitude(), passenger.getPosition().getLongitude())).title(passenger.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.persona)));
+                        }
+                    });
+                } else if (tripRequest.getAccepted() == -2) {
+                    db.collection("passenger").document(tripRequest.getMailPassenger()).get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            passenger = task.getResult().toObject(Passenger.class);
+                            createNotification(tripRequest, passenger.getName() + " ha cancelado el viaje");
+                            inTrip.setVisibility(View.INVISIBLE);
+                            chat.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                } else if (tripRequest.getAccepted() == 2) {
+                    finished.setVisibility(View.VISIBLE);
+                    if (passengerMarker != null)
+                        passengerMarker.remove();
+                } else if (passengerMarker != null)
+                    passengerMarker.remove();
+            } else {
+                if (passengerMarker != null)
+                    passengerMarker.remove();
+                if (currentPolyline != null)
+                    currentPolyline.remove();
+                chat.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+    public void onButtonShowPopupWindowClick(View view) {
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.pop_up, null);
+        ImageView popImage = popupView.findViewById(R.id.popImage);
+        TextView text = popupView.findViewById(R.id.passenger);
+        Button cancel = popupView.findViewById(R.id.cancel);
+        Button accept = popupView.findViewById(R.id.accept);
+        text.setText(passenger.getName() + " te ha enviado una solicitud para unirse a tu ruta,deseas aceptarla?");
+        Picasso.with(MapDriver.this).load(passenger.getImage()).into(popImage);
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        cancel.setOnClickListener(view1 -> {
+            inTrip.setVisibility(View.INVISIBLE);
+            chat.setVisibility(View.INVISIBLE);
+            db.collection("passenger").document(passenger.getMail()).update("inTrip", false);
+            db.collection("tripRequest").document(currentUser.getEmail()).update("accepted", -1);
+            popupWindow.dismiss();
+        });
+        accept.setOnClickListener(view12 -> {
+            chat.setVisibility(View.VISIBLE);
+            inTrip.setVisibility(View.VISIBLE);
+            if (pickUpMarker != null)
+                pickUpMarker.remove();
+            pickUpMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(tripRequest.getPickPoint().getLatitude(), tripRequest.getPickPoint().getLongitude())));
+            if (passengerMarker != null)
+                passengerMarker.remove();
+            passengerMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(passenger.getPosition().getLatitude(), passenger.getPosition().getLongitude())).title(passenger.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.persona)));
+            db.collection("passenger").document(passenger.getMail()).update("inTrip", true);
+            db.collection("tripRequest").document(currentUser.getEmail()).update("accepted", 1);
+            popupWindow.dismiss();
+        });
+    }
+    private void passengersListener() {
+        db.collection("tripRequest").document(auth.getCurrentUser().getEmail()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                tripRequest = task.getResult().toObject(TripRequest.class);
+                if (tripRequest != null) {
+                    if (tripRequest.getAccepted() == 1) {
+                        inTrip.setVisibility(View.VISIBLE);
+                        db.collection("passenger").whereEqualTo("mail", tripRequest.getMailPassenger()).addSnapshotListener((value, error) -> {
+                            passenger = value.toObjects(Passenger.class).get(0);
+                            if (passengerMarker != null)
+                                passengerMarker.remove();
+                            passengerMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(passenger.getPosition().getLatitude(), passenger.getPosition().getLongitude())).title(passenger.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.persona)));
+                            if (pickUpMarker != null)
+                                pickUpMarker.remove();
+                            pickUpMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(tripRequest.getPickPoint().getLatitude(), tripRequest.getPickPoint().getLatitude())));
+                        });
+                    } else if (tripRequest.getAccepted() == -2) {
+                        if (pickUpMarker != null)
+                            pickUpMarker.remove();
+                        if (passengerMarker != null)
+                            passengerMarker.remove();
+                    }
+                }
+            }
+        });
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "channel";
+            String description = "channel description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            //IMPORTANCE_MAX MUESTRA LA NOTIFICACIÓN ANIMADA
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    private void createNotification(TripRequest t, String msm) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.logo);
+        builder.setContentTitle(msm);
+        builder.setGroup(CHANNEL_ID);
+        builder.setColor(Color.RED);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setVibrate(new long[]{1000, 1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setAutoCancel(true);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(t.getId(), builder.build());
     }
 }

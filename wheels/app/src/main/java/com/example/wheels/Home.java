@@ -120,6 +120,13 @@ public class Home extends FragmentActivity implements OnMapReadyCallback, Locati
         auth = FirebaseAuth.getInstance();
         chat = findViewById(R.id.chat);
         chat.setVisibility(View.INVISIBLE);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getApplicationContext(), ViewUsersActivity.class);
+                startActivity(i);
+            }
+        });
         singOut = findViewById(R.id.singout);
         routes = new HashMap<>();
         cancelTrip = findViewById(R.id.cancelTrip);
